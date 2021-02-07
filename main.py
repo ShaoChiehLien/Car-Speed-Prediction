@@ -1,55 +1,55 @@
 import cv2
+import time
 import os
+import re
+import shutil
 
 
-def read_video(video, path='data/image/'):
+# read_path and write_path all must exist
+# this function will clear out all files in write path before writing to it
+# return how many jpg have been processed
+def preprocess(read_path, write_dir):
+    # Check if read_path and write_dir exist
+    if not os.path.exists(read_path):
+        print(f"read path: '{read_path}' doesn't exist")
+        return False
+    if not os.path.exists(write_dir):
+        print(f"write directory: '{write_dir}' doesn't exist")
+        return False
+    # Check if write_dir is a directory
+    if not os.path.isdir(write_dir):
+        print(f"write directory: '{write_dir}' is not a directory")
+        return False
+    # Check if input format is mp4
+    if not re.search(r'.*\.mp4', read_path):
+        print(f"please input a mp4 file")
+        return False
 
-    cap = cv2.VideoCapture(video)
+    # Start preprocess the video
+    # Clear out the content in that directory first
+    shutil.rmtree(write_dir)
+    os.makedirs(write_dir)
+    # Make sure the write_dir end with '/', so later could add index for each jpg file
+    if write_dir[-1] != '/':
+        write_dir += '/'
 
-    if not os.path.exists(path):  # make a data directory if not exists
-        os.makedirs(path)
-
-    frame_count = 0
-    while cap.isOpened():  # output each frame to file
+    cap = cv2.VideoCapture(read_path)  # read in the video
+    index = 0
+    while cap.isOpened():  # read the video frame by frame
         ret, frame = cap.read()
-        if ret:
-            cv2.imwrite(path + str(frame_count) + '.jpg', frame)
-            frame_count += 1
-            print(frame_count)
-            if frame_count >= 100:
-                break
-        else:
+        if not ret:
             break
-
+        # write jpg file in write_dir
+        cv2.imwrite(write_dir + str(index) + '.jpg', frame)
+        index += 1
+        print(index)
     cap.release()
     cv2.destroyAllWindows()
 
-
-def preprocess(path='data/image/'):  # preprocess the images
-
-    if not os.path.exists(path):  # make a data directory if not exists
-        print('Please specify a file to preprocess the images')
-
-    if not os.path.exists(path):  # make a data directory if not exists
-        os.makedirs(path)
-
-    preprocessed_data_path = 'data/preprocessed_data_path/'
-    frame_count = 0
-    while True:
-        img1_path = path + str(frame_count) + '.jpg'
-        img2_path = path + str(frame_count+1) + '.jpg'
-        if os.path.exists(img1_path) and os.path.exists(img2_path):
-            img1 = cv2.imread(img1_path, 0)  # read in 1st image in grayscale
-            img2 = cv2.imread(img2_path, 0)  # read in 2nd image in grayscale
-            diff_frame = img2 - img1
-
-        else:
-            # extend one previous image
-            cv2.imwrite(preprocessed_data_path + str(frame_count) + '.jpg',
-                        preprocessed_data_path + str(frame_count-1) + '.jpg')
-            break
-
-        frame_count += 1
+    # return how many jpg have been processed
+    return index
 
 
-read_video('train.mp4')
+if __name__ == '__main__':
+    print(preprocess('Data/train.mp4', 'Data/Car_Detection_images/'))
+
