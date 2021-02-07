@@ -5,6 +5,11 @@ import re
 import shutil
 import math
 import numpy as np
+import pandas as pd
+
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import Dense
+from tensorflow.keras.optimizers import Adam
 
 
 # read_path and write_path all must exist
@@ -52,7 +57,8 @@ def read(read_path, write_dir):
     return index
 
 
-def check_dir_images(read_dir, image_count):
+# Check if images in the directory match image_count
+def check_images_match(read_dir, image_count):
     # Check if read directory exists
     if not os.path.exists(read_dir):
         print(f"read directory: '{read_dir}' doesn't exist")
@@ -126,7 +132,7 @@ def preprocess(read_dir, train_path, output_path, resize=0.5, x_slice=8, y_slice
     f.close()
 
     # Check if the images in directory match the length of the training list
-    if not check_dir_images(read_dir, len(training_list)):
+    if not check_images_match(read_dir, len(training_list)):
         print(f"images in directory {read_dir} doesn't match the length of training list")
         return False
 
@@ -134,7 +140,7 @@ def preprocess(read_dir, train_path, output_path, resize=0.5, x_slice=8, y_slice
     f = open(output_path, 'w')
     cols = [str(i) for i in range(x_slice * y_slice)]
     cols.append('weight\n')
-    cols_str = '\t'.join(str(i) for i in cols)
+    cols_str = ', '.join(str(i) for i in cols)
     f.write(cols_str)
 
     # Referece:https://docs.opencv.org/3.4/d4/dee/tutorial_optical_flow.html
@@ -152,14 +158,16 @@ def preprocess(read_dir, train_path, output_path, resize=0.5, x_slice=8, y_slice
         image2 = cv2.resize(image2, (int(width * resize), int(height * resize)))
 
         optical_mag_list = calculate_optical_mag(image1, image2, x_slice, y_slice)
-        optical_mag_string = '\t'.join(str(i) for i in optical_mag_list)
+        optical_mag_string = ', '.join(str(i) for i in optical_mag_list)
         f.write(optical_mag_string)  # write the magnitude of the optical flow
-        f.write('\t' + training_list[index-1] + '\n')  # write the magnitude of the optical flow
+        f.write(', ' + training_list[index-1] + '\n')  # write the magnitude of the optical flow
 
         if index == len(training_list)-1:
             f.write(optical_mag_string)  # write the magnitude of the optical flow
-            f.write('\t' + training_list[index] + '\n')  # write the magnitude of the optical flow
+            f.write(', ' + training_list[index] + '\n')  # write the magnitude of the optical flow
 
+        if index % 1000 == 0:  # print out the index every 1000 images
+            print(index)
         image1 = image2
     f.close()
 
@@ -167,8 +175,56 @@ def preprocess(read_dir, train_path, output_path, resize=0.5, x_slice=8, y_slice
     return time.time()-start
 
 
+def get_dataset(read_path, split, shuf=True):
+    if not os.path.exists(read_path):
+        print(f"read path: '{read_path}' doesn't exist")
+        return False
+
+    # Read in csv file and shuf the data if needed
+    np.random.seed(10)
+    reader = pd.read_csv(read_path)
+    dataset = reader.values
+    if shuf:
+        np.random.shuffle(dataset)
+    row, column = dataset.shape
+    column -= 1
+
+    X = dataset[:, 0:column]
+    Y = dataset[:, column]
+    # Assign training and testing data
+    split_line = int((row-1)*split)
+    X_train, Y_train = X[:split_line], Y[:split_line]
+    X_test, Y_test = X[split_line:], Y[split_line:]
+    return X_train, Y_train, X_test, Y_test
+
+
+def train(read_path, validation_split=0.75, batch_size=128, epoch=100, verbose=1):
+    # Check if read_path and write_dir exist
+    if not os.path.exists(read_path):
+        print(f"read path: '{read_path}' doesn't exist")
+        return False
+    X_train, Y_train, X_test, Y_test = get_dataset(read_path, validation_split, shuf=True)
+
+    # Build a Sequential Model
+    model = Sequential([
+        Dense(units=512, input_shape=(X_train.shape[1],), activation='relu'),
+        Dense(units=256, activation='relu'),
+        Dense(units=512, activation='relu'),
+        Dense(units=256, activation='relu'),
+        Dense(units=128, activation='relu'),
+        Dense(1)
+    ])
+    print(model.summary())
+
+    model.compile(optimizer="adam", loss="mse", metrics=["mse"])
+    model.fit(X_train, Y_train, epochs=epoch, batch_size=batch_size, verbose=verbose)
+    mse, mae = model.evaluate(X_test, Y_test)
+    print("MSE: %.2f" % mse)
+    print("MAE_test: ", mae)
+    model.save("Model.h5")
+
+
 if __name__ == '__main__':
-    # print('File read:' + str(read('Data/train.mp4', 'Data/Car_Detection_images/')))
-    # print(read('Data/train.mp4', 'Data/Car_Detection_images/'))
-    # preprocess('Data/Car_Detection_images', 'Data/train copy.txt', 1, 2)
-    preprocess('Data/Car_Detection_images', 'Data/train copy.txt', 'Data/test.txt')
+    # read('Data/train.mp4', 'Data/Car_Detection_images/')
+    # preprocess('Data/Car_Detection_images', 'train.txt', 'Data/feature.txt')
+    train('Data/feature.txt')
