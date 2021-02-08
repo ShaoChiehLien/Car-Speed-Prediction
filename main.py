@@ -6,6 +6,7 @@ import shutil
 import math
 import numpy as np
 import pandas as pd
+import tensorflow.keras
 
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense
@@ -224,7 +225,61 @@ def train(read_path, validation_split=0.75, batch_size=128, epoch=100, verbose=1
     model.save("Model.h5")
 
 
+def plot_scatter():
+    pass
+
+
+# read video and output frame by frame
+def speed_detection(model_path, video, output_path, required_x_slice, required_y_slice):
+    start = time.time()  # start counting the speed_detection
+    # Check if model and video exist
+    if not os.path.exists(model_path):
+        print(f"model path: '{model_path}' doesn't exist")
+        return False
+    if not os.path.exists(video):
+        print(f"video: '{video}' doesn't exist")
+        return False
+    # Check if input format is .h5 and .mp4
+    if not re.search(r'.*\.h5', model_path):
+        print(f"please input a h5 file for model")
+        return False
+    if not re.search(r'.*\.mp4', video):
+        print(f"please input a mp4 file for video")
+        return False
+    model = tensorflow.keras.models.load_model(model_path)  # load the model
+
+    f = open(output_path, 'w')
+    cap = cv2.VideoCapture(video)  # read in the video
+    ret, image1 = cap.read()
+    index = 0
+    while cap.isOpened():  # read the video frame by frame
+        ret, image2 = cap.read()
+        if not ret:
+            break
+        images_to_predict = calculate_optical_mag(image1, image2, required_x_slice, required_y_slice)  # !!!
+        images_to_predict = np.array(images_to_predict)
+        images_to_predict = images_to_predict.reshape(1, -1)
+        predictions = model.predict(x=images_to_predict)[0][0]
+        f.write(str(predictions) + '\n')
+        print(predictions)
+        index += 1
+        print(index)
+
+    f.write(str(predictions)) # copy the last one again cause the frame difference
+    index += 1
+    f.close()
+    cap.release()
+    cv2.destroyAllWindows()
+    
+    # return how many speed for frame has been outputted
+    prediction_time = time.time() - start
+    print("prediction time: ", prediction_time)
+    print("image processed: ", index)
+    return index, prediction_time
+
+
 if __name__ == '__main__':
     # read('Data/train.mp4', 'Data/Car_Detection_images/')
     # preprocess('Data/Car_Detection_images', 'train.txt', 'Data/feature.txt')
-    train('Data/feature.txt')
+    # train('Data/feature.txt')
+    speed_detection('Model.h5', 'Data/train_test.mp4', 'train_test_output.txt', 8, 6)
