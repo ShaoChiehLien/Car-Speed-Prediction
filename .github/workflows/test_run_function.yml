@@ -1,0 +1,14 @@
+name: Upload Python Package
+
+on:
+  [push, pull_request]
+
+jobs:
+  deploy:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - run: |
+        import os
+        print('test push events triggered')
