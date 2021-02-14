@@ -193,7 +193,7 @@ def get_dataset(read_path, split, shuf=True):
         print(f"read path: '{read_path}' doesn't exist")
         return False, False, False, False
 
-    # Read in csv file and shuf the data if needed
+    # Read in csv file and shuffle the data if needed
     np.random.seed(10)
     reader = pd.read_csv(read_path)
     dataset = reader.values
@@ -202,8 +202,11 @@ def get_dataset(read_path, split, shuf=True):
     row, column = dataset.shape
     column -= 1
 
+    # standardlize the data
     X = dataset[:, 0:column]
     Y = dataset[:, column]
+    X -= X.mean(axis=0)
+    X /= X.std(axis=0)
     # Assign training and testing data
     split_line = int(row*split)
     X_train, Y_train = X[:split_line], Y[:split_line]
