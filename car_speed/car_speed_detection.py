@@ -242,7 +242,6 @@ def train(read_path, validation_split=0.75, batch_size=128, epoch=100, verbose=1
     return mse
 
 
-
 # Plot Scatter still problem
 def plot_scatter(prediction_data_path, real_data_path):
     # Check if model and video exist
@@ -286,7 +285,7 @@ def plot_scatter(prediction_data_path, real_data_path):
 
 
 # read video and output frame by frame
-def speed_detection(model_path, video, output_path, required_x_slice, required_y_slice):
+def speed_detection(model_path, video, output_path, required_resize, required_x_slice, required_y_slice):
     start = time.time()  # start counting the speed_detection
     # Check if model and video exist
     if not os.path.exists(model_path):
@@ -307,21 +306,34 @@ def speed_detection(model_path, video, output_path, required_x_slice, required_y
     f = open(output_path, 'w')
     cap = cv2.VideoCapture(video)  # read in the video
     ret, image1 = cap.read()
+    height, width, _ = image1.shape
+    image1 = cv2.resize(image1, (int(width * required_resize), int(height * required_resize)))
     index = 0
     while cap.isOpened():  # read the video frame by frame
         ret, image2 = cap.read()
         if not ret:
             break
-        images_to_predict = calculate_optical_mag(image1, image2, required_x_slice, required_y_slice)  # !!!
+        # Preprocess first before predict
+        # resize
+        image2 = cv2.resize(image2, (int(width * required_resize), int(height * required_resize)))
+        # calculate optical flow
+        mag_matrix = calculate_optical_mag(image1, image2)
+        # slice the matrix
+        images_to_predict = slice_matrix(mag_matrix, required_x_slice, required_y_slice)
+        # normalize the array
         images_to_predict = np.array(images_to_predict)
+        images_to_predict -= images_to_predict.mean(axis=0)
+        images_to_predict /= images_to_predict.std(axis=0)
+        # flatten the matrix so it could be input to the CNN model
         images_to_predict = images_to_predict.reshape(1, -1)
         predictions = model.predict(x=images_to_predict)[0][0]
         f.write(str(predictions) + '\n')
         print(predictions)
         index += 1
         print(index)
+        image1 = image2
 
-    f.write(str(predictions)) # copy the last one again cause the frame difference
+    f.write(str(predictions))  # copy the last one again cause the frame difference
     index += 1
     f.close()
     cap.release()
@@ -338,6 +350,6 @@ if __name__ == '__main__':
     # read('Data/train.mp4', 'Data/Car_Detection_images/')
     # preprocess('Data/Car_Detection_images', 'train.txt', 'Data/feature.txt')
     # train('Data/feature.txt')
-    # speed_detection('Model.h5', 'Data/train_test.mp4', 'train_test_output.txt', 8, 6)
+    # speed_detection('Model.h5', 'Data/train_test.mp4', 'train_test_output.txt', 0.5, 8, 6)
 
     plot_scatter('prediction_data.txt', 'real_data.txt')

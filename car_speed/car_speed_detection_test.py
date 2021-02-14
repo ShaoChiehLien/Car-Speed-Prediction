@@ -5,6 +5,7 @@ import shutil
 import numpy as np
 import math
 import pandas as pd
+from sklearn.metrics import mean_squared_error
 
 
 # Unit Testing: units in preprocess pipeline
@@ -188,16 +189,60 @@ def test_get_dataset():
     return True
 
 
+# Integration Testing: test training section
 def test_train():
-    pass
+    error_list = []
+    total_mse = 0.0
+    for i in range(10):
+        current_mse = car_speed_detection.train('Data/feature.txt')
+        error_list.append(current_mse)
+        total_mse += current_mse
+        if current_mse > 15:  # If one model have mse higher than 15, testing fail
+            print("test_train: FAIL")
+            return False, error_list
+
+    if total_mse/10 > 10:  # If average of 10 models have mse higher than 10, testing fail
+        print("test_train: FAIL")
+        return False, error_list
+
+    print("test_train: PASS")
+    return True, error_list
 
 
 def test_plot_scatter():
-    pass
+    car_speed_detection.plot_scatter('test_case/test_speed_detection/train.txt',
+                                     'test_case/test_speed_detection/test.txt')
 
 
 def test_speed_detection():
-    pass
+
+    model_path = 'test_case/test_speed_detection/test_Model.h5'
+    video = 'test_case/test_speed_detection/test.mp4'
+    output_path = 'test_case/test_speed_detection/test.txt'
+    car_speed_detection.speed_detection(model_path, video, output_path, 0.5, 8, 6)
+    # read real data
+    ans_path = 'test_case/test_speed_detection/answer.txt'
+    f = open(ans_path, 'r')
+    ans_list = f.read().split('\n')
+    f.close()
+    # read prediction data
+    f = open(output_path, 'r')
+    test_list = f.read().split('\n')
+    f.close()
+
+    # convert string list to float list
+    for i in range(0, len(ans_list)):
+        ans_list[i] = float(ans_list[i])
+        test_list[i] = float(test_list[i])
+    # check MSE error, if > 1.5, fail, suppose to be 1.012948989868164
+    mse = mean_squared_error(ans_list, test_list)
+    if mse >= 1.5:
+        print("mse", mse)
+        print("test_speed_detection: FAIL")
+        return False
+    print("test_speed_detection: PASS")
+    # NEED to delete file !!!
+    return True
 
 
 def integration_testing():
@@ -209,9 +254,11 @@ if __name__ == '__main__':
     # print(test_slice_matrix())
     # print(test_calculate_optical_mag())
     # print(test_get_dataset())
-    # test_check_images_match()
-    # test_preprocess()
-    car_speed_detection.test_train()
+    # print(test_check_images_match())
+    # print(test_preprocess())
+    # test_train()
+    test_speed_detection()
+    # test_plot_scatter()
 '''
     car_speed_detection.preprocess()
     car_speed_detection.train()
