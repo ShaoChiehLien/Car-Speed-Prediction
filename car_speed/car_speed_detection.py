@@ -247,48 +247,6 @@ def train(read_path, validation_split=0.75, batch_size=128, epoch=100, verbose=1
     return mse, MEAN_CONST, STD_CONST
 
 
-# Plot Scatter still problem
-def plot_scatter(prediction_data_path, real_data_path):
-    # Check if model and video exist
-    if not os.path.exists(prediction_data_path):
-        print(f"prediction data path: '{prediction_data_path}' doesn't exist")
-        return False
-    if not os.path.exists(real_data_path):
-        print(f"real data path : '{real_data_path}' doesn't exist")
-        return False
-    # Check if input format is .txt and .txt
-    if not re.search(r'.*\.txt', prediction_data_path):
-        print(f"please input a .txt file for prediction_data_path")
-        return False
-    if not re.search(r'.*\.txt', real_data_path):
-        print(f"please input a .txt file for real_data_path")
-        return False
-
-    f = open(prediction_data_path, 'r')
-    prediction_data = f.read().split('\n')
-    f.close()
-
-    f = open(real_data_path, 'r')
-    real_data = f.read().split('\n')
-    f.close()
-
-    if len(prediction_data) != len(real_data):
-        print("length of prediction_data and real_data are not the same")
-        return False
-
-    plt.plot([0, 100], [0, 100], 'red')
-    plt.scatter(prediction_data, real_data)
-    plt.title('Scatter plot for prediction data and real data')
-    plt.xlabel('prediction_data')
-    plt.ylabel('real_data')
-    print(np.arange(0, 101, step=10))
-    plt.xticks(np.arange(0, 101, 10))
-    plt.yticks(np.arange(0, 101, 10))
-    plt.show()
-
-    pass
-
-
 # read video and output frame by frame
 def speed_detection(model_path, video, output_path, required_resize, required_x_slice, required_y_slice, MEAN_CONST, STD_CONST):
     start = time.time()  # start counting the speed_detection
@@ -352,9 +310,7 @@ def speed_detection(model_path, video, output_path, required_resize, required_x_
 
 
 if __name__ == '__main__':
-    # read('Data/train.mp4', 'Data/Car_Detection_images/')
+    read('Data/train.mp4', 'Data/Car_Detection_images/')
     preprocess('Data/Car_Detection_images', 'train.txt', 'Data/feature.txt', resize = 0.5, x_slice = 8, y_slice = 6)
     mse, MEAN_CONST, STD_CONST = train('Data/feature.txt')
-    speed_detection('Model.h5', 'Data/train_test.mp4', 'train_test_output.txt', 0.5, 8, 6, MEAN_CONST, STD_CONST)
-
-    # plot_scatter('prediction_data.txt', 'real_data.txt')
+    speed_detection('Model.h5', 'Data/train_test.mp4', 'compare.txt', 0.5, 8, 6, MEAN_CONST, STD_CONST)
