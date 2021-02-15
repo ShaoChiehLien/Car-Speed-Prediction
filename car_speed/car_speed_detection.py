@@ -90,7 +90,7 @@ def slice_matrix(mag_matrix, x_slice, y_slice):
     for h in range(y_slice):
         for w in range(x_slice):
             mag_area_sum = np.sum(
-                mag_matrix[h * height_seg_len:(h+1) * height_seg_len, w * width_seg_len:(w+1) * width_seg_len])
+                mag_matrix[h * height_seg_len:(h + 1) * height_seg_len, w * width_seg_len:(w + 1) * width_seg_len])
             result.append(round(math.sqrt(mag_area_sum), 2))  # round the sqrt to 2
 
     return result
@@ -158,21 +158,24 @@ def preprocess(read_dir, train_path, output_path, resize=0.5, x_slice=8, y_slice
         read_dir += '/'
     image1 = cv2.imread(read_dir + '0' + '.jpg')
     height, width, _ = image1.shape
-    image1 = cv2.resize(image1, (int(width*resize), int(height*resize)))
+    image1 = cv2.resize(image1, (int(width * resize), int(height * resize)))
 
     for index in range(1, len(training_list)):
+        # read in image2 and resize
         image2 = cv2.imread(read_dir + str(index) + '.jpg')
         height, width, _ = image2.shape
         image2 = cv2.resize(image2, (int(width * resize), int(height * resize)))
 
+        # calculate optical flow and slice
         mag_matrix = calculate_optical_mag(image1, image2)
         optical_mag_list = slice_matrix(mag_matrix, x_slice, y_slice)
 
+        # print magnitude matrix of current two matrix images
         optical_mag_string = ', '.join(str(i) for i in optical_mag_list)
         f.write(optical_mag_string)  # write the magnitude of the optical flow
-        f.write(', ' + training_list[index-1] + '\n')  # write the magnitude of the optical flow
+        f.write(', ' + training_list[index - 1] + '\n')  # write the magnitude of the optical flow
 
-        if index == len(training_list)-1:
+        if index == len(training_list) - 1:
             f.write(optical_mag_string)  # write the magnitude of the optical flow
             f.write(', ' + training_list[index] + '\n')  # write the magnitude of the optical flow
 
@@ -181,8 +184,8 @@ def preprocess(read_dir, train_path, output_path, resize=0.5, x_slice=8, y_slice
         image1 = image2
     f.close()
 
-    print("Preprocessed Time: ", time.time()-start)
-    return time.time()-start
+    print("Preprocessed Time: ", time.time() - start)
+    return time.time() - start
 
 
 def get_dataset(read_path, split, shuf=True):
@@ -205,13 +208,15 @@ def get_dataset(read_path, split, shuf=True):
     # standardlize the data
     X = dataset[:, 0:column]
     Y = dataset[:, column]
-    X -= X.mean(axis=0)
-    X /= X.std(axis=0)
+    MEAN_CONST = X.mean(axis=0)
+    STD_CONST = X.std(axis=0)
+    X -= MEAN_CONST
+    X /= STD_CONST
     # Assign training and testing data
-    split_line = int(row*split)
+    split_line = int(row * split)
     X_train, Y_train = X[:split_line], Y[:split_line]
     X_test, Y_test = X[split_line:], Y[split_line:]
-    return X_train, Y_train, X_test, Y_test
+    return X_train, Y_train, X_test, Y_test, MEAN_CONST, STD_CONST
 
 
 def train(read_path, validation_split=0.75, batch_size=128, epoch=100, verbose=1):
@@ -219,7 +224,7 @@ def train(read_path, validation_split=0.75, batch_size=128, epoch=100, verbose=1
     if not os.path.exists(read_path):
         print(f"read path: '{read_path}' doesn't exist")
         return False
-    X_train, Y_train, X_test, Y_test = get_dataset(read_path, validation_split, shuf=True)
+    X_train, Y_train, X_test, Y_test, MEAN_CONST, STD_CONST = get_dataset(read_path, validation_split, shuf=True)
 
     # Build a Sequential Model
     model = Sequential([
@@ -239,7 +244,7 @@ def train(read_path, validation_split=0.75, batch_size=128, epoch=100, verbose=1
     print("MAE_test: ", mae)
     model.save("Model.h5")
 
-    return mse
+    return mse, MEAN_CONST, STD_CONST
 
 
 # Plot Scatter still problem
@@ -285,7 +290,7 @@ def plot_scatter(prediction_data_path, real_data_path):
 
 
 # read video and output frame by frame
-def speed_detection(model_path, video, output_path, required_resize, required_x_slice, required_y_slice):
+def speed_detection(model_path, video, output_path, required_resize, required_x_slice, required_y_slice, MEAN_CONST, STD_CONST):
     start = time.time()  # start counting the speed_detection
     # Check if model and video exist
     if not os.path.exists(model_path):
@@ -308,24 +313,24 @@ def speed_detection(model_path, video, output_path, required_resize, required_x_
     ret, image1 = cap.read()
     height, width, _ = image1.shape
     image1 = cv2.resize(image1, (int(width * required_resize), int(height * required_resize)))
+
     index = 0
     while cap.isOpened():  # read the video frame by frame
         ret, image2 = cap.read()
         if not ret:
             break
-        # Preprocess first before predict
-        # resize
+        # read in image2 and resize
+        height, width, _ = image2.shape
         image2 = cv2.resize(image2, (int(width * required_resize), int(height * required_resize)))
-        # calculate optical flow
+        # calculate optical flow and slice
         mag_matrix = calculate_optical_mag(image1, image2)
-        # slice the matrix
-        images_to_predict = slice_matrix(mag_matrix, required_x_slice, required_y_slice)
-        # normalize the array
-        images_to_predict = np.array(images_to_predict)
-        images_to_predict -= images_to_predict.mean(axis=0)
-        images_to_predict /= images_to_predict.std(axis=0)
-        # flatten the matrix so it could be input to the CNN model
+        optical_mag_list = slice_matrix(mag_matrix, required_x_slice, required_y_slice)
+        # print(optical_mag_list)
+        images_to_predict = np.array(optical_mag_list)
         images_to_predict = images_to_predict.reshape(1, -1)
+        images_to_predict -= MEAN_CONST
+        images_to_predict /= STD_CONST
+        # flatten the matrix so it could be input to the CNN model
         predictions = model.predict(x=images_to_predict)[0][0]
         f.write(str(predictions) + '\n')
         print(predictions)
@@ -338,7 +343,7 @@ def speed_detection(model_path, video, output_path, required_resize, required_x_
     f.close()
     cap.release()
     cv2.destroyAllWindows()
-    
+
     # return how many speed for frame has been outputted
     prediction_time = time.time() - start
     print("prediction time: ", prediction_time)
@@ -348,8 +353,8 @@ def speed_detection(model_path, video, output_path, required_resize, required_x_
 
 if __name__ == '__main__':
     # read('Data/train.mp4', 'Data/Car_Detection_images/')
-    # preprocess('Data/Car_Detection_images', 'train.txt', 'Data/feature.txt')
-    # train('Data/feature.txt')
-    # speed_detection('Model.h5', 'Data/train_test.mp4', 'train_test_output.txt', 0.5, 8, 6)
+    preprocess('Data/Car_Detection_images', 'train.txt', 'Data/feature.txt', resize = 0.5, x_slice = 8, y_slice = 6)
+    mse, MEAN_CONST, STD_CONST = train('Data/feature.txt')
+    speed_detection('Model.h5', 'Data/train_test.mp4', 'train_test_output.txt', 0.5, 8, 6, MEAN_CONST, STD_CONST)
 
-    plot_scatter('prediction_data.txt', 'real_data.txt')
+    # plot_scatter('prediction_data.txt', 'real_data.txt')
