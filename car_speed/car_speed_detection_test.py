@@ -151,9 +151,17 @@ def test_preprocess():
 # Use manual created test case to test if read in the dataset successfully
 def test_get_dataset():
     feature_path = 'test_case/test_get_dataset/feature.txt'
-    test_X_tra, test_Y_tra, test_X_tes, test_Y_tes = car_speed_detection.get_dataset(feature_path, 0.5, shuf=False)
-    ans_X_tra = np.array([[10, 11, 12, 13, 14, 15, 16, 17, 18],
-                          [0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8]])
+    # Use get_dataset to read in and round up the test data
+    test_X_tra, test_Y_tra, test_X_tes, test_Y_tes, MEAN_CONST, STD_CONST = \
+        car_speed_detection.get_dataset(feature_path, 0.5, shuf=False)
+    test_X_tra = np.around(test_X_tra, 3)
+    test_X_tes = np.around(test_X_tes, 3)
+
+    # Create answer array
+    # Calculate the normalized data from this: https: // mathcracker.com / normalize - data
+    # Calculate the population mean and std from this: https://www.calculator.net/standard-deviation-calculator.html
+    ans_X_tra = np.array([[-0.504, -0.566, -0.624, -0.675, -0.719, -0.755, -0.782, -0.801, -0.812],
+                          [-0.507, -0.569, -0.627, -0.679, -0.723, -0.759, -0.786, -0.804, -0.816]])
     ans_Y_tra = np.array([20, 100.2])
     # Check if the shape and the value of test_X_tra and test_Y_tra is correct
     if test_X_tra.shape != ans_X_tra.shape or test_Y_tra.shape != ans_Y_tra.shape:
@@ -163,9 +171,9 @@ def test_get_dataset():
         print("test_get_dataset: FAIL")
         return False
 
-    ans_X_tes = np.array([[0, 1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000],
-                          [10000, 9999, 9998, 9997, 9996, 9995, 9994, 9993, 9992],
-                          [100, 99, 98, 97, 96, 95, 94, 93, 92]])
+    ans_X_tes = np.array([[-0.507, -0.313, -0.109,  0.098,  0.302,  0.497,  0.678,  0.842,  0.988],
+                          [     2,  1.991,  1.961,   1.91,  1.839,  1.751,  1.652,  1.546,  1.437],
+                          [-0.482, -0.543, -0.601, -0.654, -0.698, -0.735, -0.763, -0.783, -0.796]])
     ans_Y_tes = np.array([1, 0.222, 10000.00])
     # Check if the shape and the value of test_X and test_Y is correct
     if test_X_tes.shape != ans_X_tes.shape or test_Y_tes.shape != ans_Y_tes.shape:
@@ -258,8 +266,8 @@ if __name__ == '__main__':
     # print(test_read())
     # print(test_slice_matrix())
     # print(test_calculate_optical_mag())
-    print(test_get_dataset())
+    # print(test_get_dataset())
     # print(test_check_images_match())
-    # print(test_preprocess())
+    print(test_preprocess())
     # test_train()
     # test_speed_detection()
