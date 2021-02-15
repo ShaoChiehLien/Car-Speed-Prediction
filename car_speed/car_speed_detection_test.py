@@ -12,19 +12,17 @@ from sklearn.metrics import mean_squared_error
 # Test if read in the video and output each frame successfully
 def test_read():
     # Create a new directory
-    write_dir = 'test_case/images_dir/'
+    write_dir = 'test_case/test_read/images_dir/'
     if os.path.exists(write_dir):  # If exist, delete it
         shutil.rmtree(write_dir)
     os.makedirs(write_dir)  # create an empty file
 
     # Read the video and save each frame into the new created directory
-    car_speed_detection.read('test_case/test.mp4', write_dir)
-    # Calculate the total frame
-    video = cv2.VideoCapture('test_case/test.mp4')
-    total_frames = video.get(cv2.CAP_PROP_FRAME_COUNT)
+    car_speed_detection.read('test_case/test_read/test.mp4', write_dir)
 
     # Check if the read function's output match the total_frames
-    for index in range(0, int(total_frames)-1):
+    total_frames = 1023
+    for index in range(0, total_frames):
         if not os.path.exists(write_dir + str(index) + '.jpg'):
             print('test_read: FAIL')
             return False
@@ -32,22 +30,7 @@ def test_read():
     # Delete the testing file
     shutil.rmtree(write_dir)
 
-    # If not deleted, return false
-    if os.path.exists(write_dir):
-        print('test_read: FAIL')
-        return False
-
     print("test_read: PASS")
-    return True
-
-
-# Unit Testing: units in preprocess pipeline
-# Test if images match the count
-def test_check_images_match():
-    if not car_speed_detection.check_images_match('test_case/test_check_images_match', 120):
-        print("test_check_images_match: FAIL")
-        return False
-    print("test_check_images_match: PASS")
     return True
 
 
@@ -71,6 +54,16 @@ def test_slice_matrix():
 
 
 # Unit Testing: units in preprocess pipeline
+# Test if images match the count
+def test_check_images_match():
+    if not car_speed_detection.check_images_match('test_case/test_check_images_match', 120):
+        print("test_check_images_match: FAIL")
+        return False
+    print("test_check_images_match: PASS")
+    return True
+
+
+# Unit Testing: units in preprocess pipeline
 # Use if the calculate_optical_mag result matches the result produced by the algorithm provided by openCV
 def test_calculate_optical_mag():
     frame1_path = 'test_case/test_calculate_optical_mag/frame1.jpg'
@@ -90,9 +83,6 @@ def test_calculate_optical_mag():
     hsv[..., 2] = ans_arr
     # Test calculate_optical_mag
     test_arr = car_speed_detection.calculate_optical_mag(cv2.imread(frame1_path), cv2.imread(frame2_path))
-    if (test_arr != ans_arr).any():
-        print("test_calculate_optical_mag: FAIL")
-        return False
     if not ((ans_arr == test_arr).all()):
         print("test_calculate_optical_mag: FAIL")
         return False
@@ -209,17 +199,32 @@ def test_train():
     return True, error_list
 
 
-def test_plot_scatter():
-    car_speed_detection.plot_scatter('test_case/test_speed_detection/train.txt',
-                                     'test_case/test_speed_detection/test.txt')
-
-
 def test_speed_detection():
 
     model_path = 'test_case/test_speed_detection/test_Model.h5'
     video = 'test_case/test_speed_detection/test.mp4'
     output_path = 'test_case/test_speed_detection/test.txt'
-    car_speed_detection.speed_detection(model_path, video, output_path, 0.5, 8, 6)
+    MEAN_CONST = [147.7918201, 138.24889951, 116.21455, 106.64215147, 110.28405098,
+     121.62982745,  141.48395196,   145.04602255,   171.35321961, 148.17993235,
+     110.37138431,  83.55375833,    96.68191618,    140.38086618, 185.07591765,
+     203.17913971,  251.1464152,    212.70471078,   152.21537255, 107.87600049,
+     113.8789951,   167.16572353,   223.34071667,   230.88207941, 202.32842353,
+     218.76250049,  239.56567941,   129.21213578,   156.10384461, 229.17822941,
+     213.5008348,   202.7395201,    83.87611667,    151.52054559, 121.75671961,
+     86.96753971,   86.5108598,     143.28980588,   132.71390833, 71.56798725,
+     36.68911618,   55.40894755,    66.44651912,    73.01452353,  65.63785588,
+     54.13270539,   44.33209559,    24.61398676]
+    STD_CONST = [121.20170689, 108.73248112, 89.89439207, 76.08570102, 76.03350568,
+     83.30810119,   105.63822608,   123.09427226,   101.14608647,   91.48304002,
+     82.89905858,   68.48766174,    63.38327538,    77.71343457,    105.02754141,
+     130.8793052,   90.42021844,    72.49725972,    57.11527939,    44.60546987,
+     45.4591745,    59.44147935,    83.48659665,    110.79245319,   111.18939872,
+     91.22885143,   78.38628012,    50.27432635,    55.91700826,    83.25067549,
+     90.28454622,   112.16524769,   55.76708369,    79.64393783,    56.86681395,
+     43.64527864,   43.3930939,     72.28834558,    76.48463965,    69.35293988,
+     22.70234598,   26.81283386,    29.15718362,    33.42548885,    30.24977878,
+     26.20702268,   30.61206634,    25.81503033]
+    car_speed_detection.speed_detection(model_path, video, output_path, 0.5, 8, 6, MEAN_CONST, STD_CONST)
     # read real data
     ans_path = 'test_case/test_speed_detection/answer.txt'
     f = open(ans_path, 'r')
@@ -253,15 +258,8 @@ if __name__ == '__main__':
     # print(test_read())
     # print(test_slice_matrix())
     # print(test_calculate_optical_mag())
-    # print(test_get_dataset())
+    print(test_get_dataset())
     # print(test_check_images_match())
     # print(test_preprocess())
     # test_train()
-    test_speed_detection()
-    # test_plot_scatter()
-'''
-    car_speed_detection.preprocess()
-    car_speed_detection.train()
-    car_speed_detection.plot_scatter()
-    car_speed_detection.speed_detection()
-'''
+    # test_speed_detection()
