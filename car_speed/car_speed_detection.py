@@ -309,8 +309,63 @@ def speed_detection(model_path, video, output_path, required_resize, required_x_
     return index, prediction_time
 
 
+def combine_video_and_speed(video_path, speed_path, output_path='combined_video_and_speed.mp4'):
+    if not os.path.exists(video_path):
+        print(f"video path: '{video_path}' doesn't exist")
+        return False
+    if not os.path.exists(speed_path):
+        print(f"speed_path path: '{speed_path}' doesn't exist")
+        return False
+    if not re.search(r'.*\.mp4', video_path):
+        print(f"please input a mp4 file")
+        return False
+    if not re.search(r'.*\.txt', speed_path):
+        print(f"please input a txt file")
+        return False
+
+    # Get the frame count of the video
+    cap = cv2.VideoCapture(video_path)
+
+    # Get the speed list
+    f = open(speed_path, 'r')
+    speed_list = f.read().split('\n')
+    f.close()
+
+    # Check if length of speed list matches the total frame of the video
+    if cap.get(cv2.CAP_PROP_FRAME_COUNT) != len(speed_list):
+        print("Lenth of speed list doesn\'t match the total frame of the video")
+
+    # Write
+    fourcc = cv2.VideoWriter_fourcc(*'mp4v')  # mp4v is for .mp4 file
+    width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))  # width of video
+    height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))  # height of video
+    out = cv2.VideoWriter(output_path, fourcc, cap.get(cv2.CAP_PROP_FPS), (width, height))
+
+    frame_index = 0
+    while cap.isOpened():  # show the video frame by frame
+        ret, frame = cap.read()  # ret = 1 if cap is read and store in frame
+        if ret:
+            # set up font and text
+            font = cv2.FONT_ITALIC
+            text = f'Speed: {speed_list[frame_index]}'
+
+            # add text to frame
+            frame = cv2.putText(frame, text, (10, 50), font, 1, (0, 255, 255), 2, cv2.LINE_AA)
+
+            out.write(frame)  # write the original frame to out's frame
+
+            frame_index += 1
+            print(frame_index)
+        else:
+            break
+    cap.release()
+    out.release()
+    cv2.destroyAllWindows()
+
+
 if __name__ == '__main__':
-    read('Data/train.mp4', 'Data/Car_Detection_images/')
-    preprocess('Data/Car_Detection_images', 'train.txt', 'Data/feature.txt', resize = 0.5, x_slice = 8, y_slice = 6)
-    mse, MEAN_CONST, STD_CONST = train('Data/feature.txt')
-    speed_detection('Model.h5', 'Data/train_test.mp4', 'compare.txt', 0.5, 8, 6, MEAN_CONST, STD_CONST)
+    # read('Data/train.mp4', 'Data/Car_Detection_images/')
+    # preprocess('Data/Car_Detection_images', 'train.txt', 'Data/feature.txt', resize = 0.5, x_slice = 8, y_slice = 6)
+    # mse, MEAN_CONST, STD_CONST = train('Data/feature.txt')
+    # speed_detection('Model.h5', 'Data/train_test.mp4', 'compare.txt', 0.5, 8, 6, MEAN_CONST, STD_CONST)
+    combine_video_and_speed('Data/test_trained_model/test.mp4', 'Data/test_trained_model/test_output.txt', 'Data/combined_video_and_speed.mp4')
