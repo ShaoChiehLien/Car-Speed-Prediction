@@ -1,4 +1,4 @@
-import car_speed_detection
+from car_speed import car_speed_detection
 import cv2
 import os
 import shutil
@@ -6,6 +6,7 @@ import numpy as np
 import math
 import pandas as pd
 from sklearn.metrics import mean_squared_error
+import pytest
 
 
 # Unit Testing: units in preprocess pipeline
@@ -21,17 +22,13 @@ def test_read():
     car_speed_detection.read('test_case/test_read/test.mp4', write_dir)
 
     # Check if the read function's output match the total_frames
-    total_frames = 1023
+    total_frames = 1203
     for index in range(0, total_frames):
-        if not os.path.exists(write_dir + str(index) + '.jpg'):
-            print('test_read: FAIL')
-            return False
+        assert os.path.exists(write_dir + str(index) + '.jpg')
 
     # Delete the testing file
     shutil.rmtree(write_dir)
-
-    print("test_read: PASS")
-    return True
+    return
 
 
 # Unit Testing: units in preprocess pipeline
@@ -45,22 +42,15 @@ def test_slice_matrix():
                         [1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4]])
     sliced_matrix = car_speed_detection.slice_matrix(test_arr, 4, 3)
     ans_arr = [5.48, 8.94, 11.4, 13.42, 13.42, 11.4, 8.94, 5.48, 3.16, 4.47, 5.48, 6.32]
-    if sliced_matrix != ans_arr:
-        print("test_slice_matrix: FAIL")
-        return False
-
-    print("test_slice_matrix: PASS")
-    return True
+    assert sliced_matrix == ans_arr
+    return
 
 
 # Unit Testing: units in preprocess pipeline
 # Test if images match the count
 def test_check_images_match():
-    if not car_speed_detection.check_images_match('test_case/test_check_images_match', 120):
-        print("test_check_images_match: FAIL")
-        return False
-    print("test_check_images_match: PASS")
-    return True
+    assert car_speed_detection.check_images_match('test_case/test_check_images_match', 120)
+    return
 
 
 # Unit Testing: units in preprocess pipeline
@@ -83,16 +73,12 @@ def test_calculate_optical_mag():
     hsv[..., 2] = ans_arr
     # Test calculate_optical_mag
     test_arr = car_speed_detection.calculate_optical_mag(cv2.imread(frame1_path), cv2.imread(frame2_path))
-    if not ((ans_arr == test_arr).all()):
-        print("test_calculate_optical_mag: FAIL")
-        return False
+    assert ((ans_arr == test_arr).all())
 
     # Visualize the optical flow
     bgr = cv2.cvtColor(hsv, cv2.COLOR_HSV2BGR)
     cv2.imwrite('test_case/test_calculate_optical_mag/output.png', bgr)
-
-    print("test_calculate_optical_mag: PASS")
-    return True
+    return
 
 
 # Integration Testing: test preprocess pipeline
@@ -137,12 +123,8 @@ def test_preprocess():
     test_arr = reader.values
 
     # Compare the testing data and answer
-    if not (test_arr == ans_arr).all():
-        print("Integration Testing-test preprocess pipeline: FAIL")
-        os.remove('test_case/test_preprocess/dummy')
-        return False
+    assert (test_arr == ans_arr).all()
 
-    print("Integration Testing-test preprocess pipeline: PASS")
     os.remove('test_case/test_preprocess/dummy')
     return True
 
@@ -164,47 +146,35 @@ def test_get_dataset():
                           [-0.507, -0.569, -0.627, -0.679, -0.723, -0.759, -0.786, -0.804, -0.816]])
     ans_Y_tra = np.array([20, 100.2])
     # Check if the shape and the value of test_X_tra and test_Y_tra is correct
-    if test_X_tra.shape != ans_X_tra.shape or test_Y_tra.shape != ans_Y_tra.shape:
-        print("test_get_dataset: FAIL")
-        return False
-    if not ((test_X_tra == ans_X_tra).all() and (test_Y_tra == ans_Y_tra).all()):
-        print("test_get_dataset: FAIL")
-        return False
+    assert test_X_tra.shape == ans_X_tra.shape and test_Y_tra.shape == ans_Y_tra.shape
+
+    assert ((test_X_tra == ans_X_tra).all() and (test_Y_tra == ans_Y_tra).all())
 
     ans_X_tes = np.array([[-0.507, -0.313, -0.109,  0.098,  0.302,  0.497,  0.678,  0.842,  0.988],
                           [     2,  1.991,  1.961,   1.91,  1.839,  1.751,  1.652,  1.546,  1.437],
                           [-0.482, -0.543, -0.601, -0.654, -0.698, -0.735, -0.763, -0.783, -0.796]])
     ans_Y_tes = np.array([1, 0.222, 10000.00])
     # Check if the shape and the value of test_X and test_Y is correct
-    if test_X_tes.shape != ans_X_tes.shape or test_Y_tes.shape != ans_Y_tes.shape:
-        print("test_get_dataset: FAIL")
-        return False
-    if not ((test_X_tes == ans_X_tes).all() and (test_Y_tes == ans_Y_tes).all()):
-        print("test_get_dataset: FAIL")
-        return False
+    assert test_X_tes.shape == ans_X_tes.shape and test_Y_tes.shape == ans_Y_tes.shape
 
-    print("test_get_dataset: PASS")
-    return True
+    assert ((test_X_tes == ans_X_tes).all() and (test_Y_tes == ans_Y_tes).all())
+
+    return
 
 
 # Integration Testing: test training section
 def test_train():
     error_list = []
     total_mse = 0.0
-    for i in range(10):
-        current_mse = car_speed_detection.train('Data/feature.txt')
+    for i in range(0, 1):
+        current_mse, MEAN_CONST, STD_CONST = car_speed_detection.train('test_case/test_train/feature.txt')
         error_list.append(current_mse)
         total_mse += current_mse
-        if current_mse > 15:  # If one model have mse higher than 15, testing fail
-            print("test_train: FAIL")
-            return False, error_list
+        assert current_mse <= 10
 
-    if total_mse/10 > 10:  # If average of 10 models have mse higher than 10, testing fail
-        print("test_train: FAIL")
-        return False, error_list
+    assert total_mse/10 <= 5
 
-    print("test_train: PASS")
-    return True, error_list
+    return
 
 
 def test_speed_detection():
@@ -249,25 +219,11 @@ def test_speed_detection():
         test_list[i] = float(test_list[i])
     # check MSE error, if > 1.5, fail, suppose to be 1.012948989868164
     mse = mean_squared_error(ans_list, test_list)
-    if mse >= 1.5:
-        print("mse", mse)
-        print("test_speed_detection: FAIL")
-        return False
+    assert mse < 3
+
     print("test_speed_detection: PASS")
-    # NEED to delete file !!!
+    os.remove('test_case/test_speed_detection/test.txt')
     return True
 
-
-def integration_testing():
-    pass
-
-
-if __name__ == '__main__':
-    # print(test_read())
-    # print(test_slice_matrix())
-    # print(test_calculate_optical_mag())
-    # print(test_get_dataset())
-    # print(test_check_images_match())
-    print(test_preprocess())
-    # test_train()
-    # test_speed_detection()
+# Run the testing script
+# py.test -k test -v
