@@ -38,5 +38,4 @@ jobs:
       run: |
         python setup.py sdist
         python -m pip install -r requirements.txt
-        python car_speed/car_speed_detection_test.py
-        py.test -k test -v
+        py.test car_speed/car_speed_detection_test.py
