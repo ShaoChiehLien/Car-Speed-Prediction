@@ -370,3 +370,4 @@ if __name__ == '__main__':
     # speed_detection('Model.h5', 'Data/train_test.mp4', 'compare.txt', 0.5, 8, 6, MEAN_CONST, STD_CONST)
     # combine_video_and_speed('Data/test_trained_model/test.mp4', 'Data/test_trained_model/test_output.txt', 'Data/combined_video_and_speed.mp4')
     pass
+
