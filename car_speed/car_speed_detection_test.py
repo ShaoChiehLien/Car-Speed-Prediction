@@ -223,6 +223,10 @@ def test_speed_detection():
     assert len(ans_list) == len(test_list)
     
     # check MSE error, if > 1.5, fail, suppose to be 1.012948989868164
+    for i in range(0, len(ans_list)):
+        assert not math.isnan(x)
+    for i in range(0, len(test_list)):
+        assert not math.isnan(x)
     sum_for_mse = 0
     for i in range(0, len(ans_list)):
         temp = ans_list[i]-test_list[i]
