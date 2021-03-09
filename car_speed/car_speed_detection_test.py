@@ -1,5 +1,5 @@
 # from car_speed import car_speed_detection
-import car_speed/car_speed_detection
+import car_speed_detection
 import cv2
 import os
 import shutil
