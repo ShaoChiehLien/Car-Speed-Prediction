@@ -233,7 +233,7 @@ def test_speed_detection():
         sum_for_mse += (temp * temp)
     
     # mse = mean_squared_error(ans_list, test_list)
-    assert int(mse) < 3
+    assert int(sum_for_mse) < 3
 
     print("test_speed_detection: PASS")
     os.remove('test_case/test_speed_detection/test.txt')
