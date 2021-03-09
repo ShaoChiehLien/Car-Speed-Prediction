@@ -221,8 +221,7 @@ def test_speed_detection():
         test_list[i] = float(test_list[i])
     # check MSE error, if > 1.5, fail, suppose to be 1.012948989868164
     mse = mean_squared_error(ans_list, test_list)
-    sys.stderr.write("mse", mse)
-    # assert mse < 5
+    assert mse < 3
 
     print("test_speed_detection: PASS")
     os.remove('test_case/test_speed_detection/test.txt')
