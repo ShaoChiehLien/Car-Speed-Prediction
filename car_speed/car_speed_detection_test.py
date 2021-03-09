@@ -211,6 +211,7 @@ def test_speed_detection():
     ans_list = f.read().split('\n')
     f.close()
     # read prediction data
+    assert os.path.exists(output_path)
     f = open(output_path, 'r')
     test_list = f.read().split('\n')
     f.close()
