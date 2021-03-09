@@ -37,4 +37,5 @@ jobs:
     - name: Test package
       run: |
         python setup.py sdist
+        python car_speed/car_speed_detection.py
 
