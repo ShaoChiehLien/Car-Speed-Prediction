@@ -223,7 +223,13 @@ def test_speed_detection():
     assert len(ans_list) == len(test_list)
     
     # check MSE error, if > 1.5, fail, suppose to be 1.012948989868164
-    mse = mean_squared_error(ans_list, test_list)
+    sum_for_mse = 0
+    for i in range(0, len(ans_list)):
+        temp = ans_list[i]-test_list[i]
+        sum_for_mse += (temp * temp)
+    mse = math.sqrt(sum_for_mse/len(ans_list))
+    
+    # mse = mean_squared_error(ans_list, test_list)
     assert int(mse) < 3
 
     print("test_speed_detection: PASS")
