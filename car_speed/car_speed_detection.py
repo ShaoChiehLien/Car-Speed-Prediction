@@ -24,8 +24,7 @@ def read(read_path, write_dir):
         print(f"read path: '{read_path}' doesn't exist")
         return False
     if not os.path.exists(write_dir):
-        print(f"write directory: '{write_dir}' doesn't exist")
-        return False
+        os.mkdir(write_dir)
     # Check if write_dir is a directory
     if not os.path.isdir(write_dir):
         print(f"write directory: '{write_dir}' is not a directory")
@@ -385,7 +384,6 @@ def fine_tune(read_model_path, read_feature_path, output_path, validation_split=
     model.save(output_path)
     print("fine tuned model: ", model.summary())
     return mse, MEAN_CONST, STD_CONST
-
 
 
 if __name__ == '__main__':
