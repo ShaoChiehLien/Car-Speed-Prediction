@@ -11,6 +11,7 @@ import matplotlib.pyplot as plt
 
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense
+from tensorflow.keras.models import load_model
 from tensorflow.keras.optimizers import Adam
 
 
@@ -363,11 +364,35 @@ def combine_video_and_speed(video_path, speed_path, output_path='combined_video_
     cv2.destroyAllWindows()
 
 
+# Load in pretrained model and retrain it with more data
+def fine_tune(read_model_path, read_feature_path, output_path, validation_split=0.75, batch_size=128, epoch=100, verbose=1):
+    # Check if read_model_path and read_feature_path exist
+    if not os.path.exists(read_model_path):
+        print(f"read model path: '{read_model_path}' doesn't exist")
+        return False
+    if not os.path.exists(read_feature_path):
+        print(f"read feature path: '{read_feature_path}' doesn't exist")
+        return False
+    X_train, Y_train, X_test, Y_test, MEAN_CONST, STD_CONST = get_dataset(read_feature_path, validation_split, shuf=True)
+
+    model = load_model(read_model_path)
+    print("original model: ", model.summary())
+    model.compile(optimizer="adam", loss="mse", metrics=["mse"])
+    model.fit(X_train, Y_train, epochs=epoch, batch_size=batch_size, verbose=verbose)
+    mse, mae = model.evaluate(X_test, Y_test)
+    print("MSE: %.2f" % mse)
+    print("MAE_test: ", mae)
+    model.save(output_path)
+    print("fine tuned model: ", model.summary())
+    return mse, MEAN_CONST, STD_CONST
+
+
+
 if __name__ == '__main__':
     # read('Data/train.mp4', 'Data/Car_Detection_images/')
     # preprocess('Data/Car_Detection_images', 'train.txt', 'Data/feature.txt', resize = 0.5, x_slice = 8, y_slice = 6)
     # mse, MEAN_CONST, STD_CONST = train('Data/feature.txt')
     # speed_detection('Model.h5', 'Data/train_test.mp4', 'compare.txt', 0.5, 8, 6, MEAN_CONST, STD_CONST)
     # combine_video_and_speed('Data/test_trained_model/test.mp4', 'Data/test_trained_model/test_output.txt', 'Data/combined_video_and_speed.mp4')
-    pass
 
+    # fine_tune('Model.h5', 'Data/feature.txt', 'Model_tune.h5')
