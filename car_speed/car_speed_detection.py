@@ -96,7 +96,7 @@ def _slice_matrix(mag_matrix, x_slice, y_slice):
     return result
 
 
-# calculate_optical_mag will convert the images to grayscale before calculating the optical flow
+# _calculate_optical_mag will convert the images to grayscale before calculating the optical flow
 def _calculate_optical_mag(image1, image2):
     # Check if image have the same size
     if image1.shape != image2.shape:
@@ -167,8 +167,8 @@ def preprocess(read_dir, train_path, output_path, resize=0.5, x_slice=8, y_slice
         image2 = cv2.resize(image2, (int(width * resize), int(height * resize)))
 
         # calculate optical flow and slice
-        mag_matrix = calculate_optical_mag(image1, image2)
-        optical_mag_list = slice_matrix(mag_matrix, x_slice, y_slice)
+        mag_matrix = _calculate_optical_mag(image1, image2)
+        optical_mag_list = _slice_matrix(mag_matrix, x_slice, y_slice)
 
         # print magnitude matrix of current two matrix images
         optical_mag_string = ', '.join(str(i) for i in optical_mag_list)
@@ -224,7 +224,7 @@ def train(read_path, validation_split=0.75, batch_size=128, epoch=100, verbose=1
     if not os.path.exists(read_path):
         print(f"read path: '{read_path}' doesn't exist")
         return False
-    X_train, Y_train, X_test, Y_test, MEAN_CONST, STD_CONST = get_dataset(read_path, validation_split, shuf=True)
+    X_train, Y_train, X_test, Y_test, MEAN_CONST, STD_CONST = _get_dataset(read_path, validation_split, shuf=True)
 
     # Build a Sequential Model
     model = Sequential([
@@ -281,8 +281,8 @@ def speed_detection(model_path, video, output_path, required_resize, required_x_
         height, width, _ = image2.shape
         image2 = cv2.resize(image2, (int(width * required_resize), int(height * required_resize)))
         # calculate optical flow and slice
-        mag_matrix = calculate_optical_mag(image1, image2)
-        optical_mag_list = slice_matrix(mag_matrix, required_x_slice, required_y_slice)
+        mag_matrix = _calculate_optical_mag(image1, image2)
+        optical_mag_list = _slice_matrix(mag_matrix, required_x_slice, required_y_slice)
         # print(optical_mag_list)
         images_to_predict = np.array(optical_mag_list)
         images_to_predict = images_to_predict.reshape(1, -1)
@@ -372,7 +372,7 @@ def fine_tune(read_model_path, read_feature_path, output_path, validation_split=
     if not os.path.exists(read_feature_path):
         print(f"read feature path: '{read_feature_path}' doesn't exist")
         return False
-    X_train, Y_train, X_test, Y_test, MEAN_CONST, STD_CONST = get_dataset(read_feature_path, validation_split, shuf=True)
+    X_train, Y_train, X_test, Y_test, MEAN_CONST, STD_CONST = _get_dataset(read_feature_path, validation_split, shuf=True)
 
     model = load_model(read_model_path)
     print("original model: ", model.summary())
