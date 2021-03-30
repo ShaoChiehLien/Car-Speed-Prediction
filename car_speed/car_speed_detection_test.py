@@ -1,4 +1,3 @@
-# from car_speed import car_speed_detection
 import car_speed.car_speed_detection as car_speed_detection
 import cv2
 import os
@@ -42,7 +41,7 @@ def test_slice_matrix():
                         [20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1],
                         [1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4],
                         [1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4]])
-    sliced_matrix = car_speed_detection.slice_matrix(test_arr, 4, 3)
+    sliced_matrix = car_speed_detection._slice_matrix(test_arr, 4, 3)
     ans_arr = [5.48, 8.94, 11.4, 13.42, 13.42, 11.4, 8.94, 5.48, 3.16, 4.47, 5.48, 6.32]
     assert sliced_matrix == ans_arr
     return
@@ -74,7 +73,7 @@ def test_calculate_optical_mag():
     ans_arr = cv2.normalize(mag, None, 0, 255, cv2.NORM_MINMAX)
     hsv[..., 2] = ans_arr
     # Test calculate_optical_mag
-    test_arr = car_speed_detection.calculate_optical_mag(cv2.imread(frame1_path), cv2.imread(frame2_path))
+    test_arr = car_speed_detection._calculate_optical_mag(cv2.imread(frame1_path), cv2.imread(frame2_path))
     assert ((ans_arr == test_arr).all())
 
     # Visualize the optical flow
@@ -137,7 +136,7 @@ def test_get_dataset():
     feature_path = 'test_case/test_get_dataset/feature.txt'
     # Use get_dataset to read in and round up the test data
     test_X_tra, test_Y_tra, test_X_tes, test_Y_tes, MEAN_CONST, STD_CONST = \
-        car_speed_detection.get_dataset(feature_path, 0.5, shuf=False)
+        car_speed_detection._get_dataset(feature_path, 0.5, shuf=False)
     test_X_tra = np.around(test_X_tra, 3)
     test_X_tes = np.around(test_X_tes, 3)
 

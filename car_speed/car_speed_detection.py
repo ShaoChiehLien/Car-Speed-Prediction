@@ -81,7 +81,7 @@ def check_images_match(read_dir, image_count):
     return True
 
 
-def slice_matrix(mag_matrix, x_slice, y_slice):
+def _slice_matrix(mag_matrix, x_slice, y_slice):
     # Calculate the sum of each mag area and return the sqrt of the area sum
     height, width = mag_matrix.shape
     height_seg_len = height // y_slice
@@ -97,7 +97,7 @@ def slice_matrix(mag_matrix, x_slice, y_slice):
 
 
 # calculate_optical_mag will convert the images to grayscale before calculating the optical flow
-def calculate_optical_mag(image1, image2):
+def _calculate_optical_mag(image1, image2):
     # Check if image have the same size
     if image1.shape != image2.shape:
         print("Image has different size")
@@ -188,7 +188,7 @@ def preprocess(read_dir, train_path, output_path, resize=0.5, x_slice=8, y_slice
     return time.time() - start
 
 
-def get_dataset(read_path, split, shuf=True):
+def _get_dataset(read_path, split, shuf=True):
     if split > 1 or split < 0:
         print("split parameter out of range (0, 1)")
         return False, False, False, False
