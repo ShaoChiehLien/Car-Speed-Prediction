@@ -1,0 +1,34 @@
+M4v1
+Round1: 46.47
+Round2: 49.45
+Round3: 48.96
+Round4: 47.58
+Round5: 47.24
+
+M4v2
+Round1: 89.95
+Round2: 94.95
+Round3: 95.04
+Round4: 90.27
+Round5: 92.55
+
+M4v3
+Round1: 66.22
+Round2: 64.81
+Round3: 66.54
+Round4: 73.69
+Round5: 67.92
+
+M4v4
+Round1: 55.91
+Round2: 56.16
+Round3: 55.85
+Round4: 54.23
+Round5: 56.14
+
+M4 Overall
+Round1: 88.42
+Round2: 88.09
+Round3: 86.80
+Round4: 86.29
+Round5: 89.30
