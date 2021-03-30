@@ -2,9 +2,9 @@ from setuptools import setup, find_packages
 
 setup(
     name='xworker',
-    version='1.0',
+    version='0.7.0',
     author='Shao-chieh Lien',
-    author_email='leins@purdue.edu',
+    author_email='shaochiehlien@gmail.com',
     packages=find_packages(),
 )
 
