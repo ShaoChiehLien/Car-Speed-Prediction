@@ -14,13 +14,13 @@ import sys
 # Test if read in the video and output each frame successfully
 def test_read():
     # Create a new directory
-    write_dir = 'test_case/test_read/images_dir/'
+    write_dir = 'tests/test_case/test_read/images_dir/'
     if os.path.exists(write_dir):  # If exist, delete it
         shutil.rmtree(write_dir)
     os.makedirs(write_dir)  # create an empty file
 
     # Read the video and save each frame into the new created directory
-    car_speed_detection.read('test_case/test_read/test.mp4', write_dir)
+    car_speed_detection.read('tests/test_case/test_read/test.mp4', write_dir)
 
     # Check if the read function's output match the total_frames
     total_frames = 1203
@@ -50,15 +50,15 @@ def test_slice_matrix():
 # Unit Testing: units in preprocess pipeline
 # Test if images match the count
 def test_check_images_match():
-    assert car_speed_detection.check_images_match('test_case/test_check_images_match', 120)
+    assert car_speed_detection.check_images_match('tests/test_case/test_check_images_match', 120)
     return
 
 
 # Unit Testing: units in preprocess pipeline
 # Use if the calculate_optical_mag result matches the result produced by the algorithm provided by openCV
 def test_calculate_optical_mag():
-    frame1_path = 'test_case/test_calculate_optical_mag/frame1.jpg'
-    frame2_path = 'test_case/test_calculate_optical_mag/frame2.jpg'
+    frame1_path = 'tests/test_case/test_calculate_optical_mag/frame1.jpg'
+    frame2_path = 'tests/test_case/test_calculate_optical_mag/frame2.jpg'
 
     # Algorithm from opencv
     frame1 = cv2.imread(frame1_path)
@@ -78,7 +78,7 @@ def test_calculate_optical_mag():
 
     # Visualize the optical flow
     bgr = cv2.cvtColor(hsv, cv2.COLOR_HSV2BGR)
-    cv2.imwrite('test_case/test_calculate_optical_mag/output.png', bgr)
+    cv2.imwrite('tests/test_case/test_calculate_optical_mag/output.png', bgr)
     return
 
 
@@ -90,8 +90,8 @@ def test_preprocess():
     ans_arr = []
     for i in range(2):
         # resize
-        image1 = cv2.imread("test_case/test_preprocess/" + str(i) + '.jpg')
-        image2 = cv2.imread("test_case/test_preprocess/" + str(i+1) + '.jpg')
+        image1 = cv2.imread("tests/test_case/test_preprocess/" + str(i) + '.jpg')
+        image2 = cv2.imread("tests/test_case/test_preprocess/" + str(i+1) + '.jpg')
         # resize
         image1 = cv2.resize(image1, (320, 240))
         image2 = cv2.resize(image2, (320, 240))
@@ -118,22 +118,22 @@ def test_preprocess():
     ans_arr[2][48] = 1022
 
     # Generate testing data
-    car_speed_detection.preprocess('test_case/test_preprocess', 'test_case/test_preprocess/train.txt',
-                                   'test_case/test_preprocess/dummy', resize=0.5, x_slice=8, y_slice=6)
-    reader = pd.read_csv('test_case/test_preprocess/dummy')
+    car_speed_detection.preprocess('tests/test_case/test_preprocess', 'tests/test_case/test_preprocess/train.txt',
+                                   'tests/test_case/test_preprocess/dummy', resize=0.5, x_slice=8, y_slice=6)
+    reader = pd.read_csv('tests/test_case/test_preprocess/dummy')
     test_arr = reader.values
 
     # Compare the testing data and answer
     assert (test_arr == ans_arr).all()
 
-    os.remove('test_case/test_preprocess/dummy')
+    os.remove('tests/test_case/test_preprocess/dummy')
     return True
 
 
 # Unit Testing: units in training section
 # Use manual created test case to test if read in the dataset successfully
 def test_get_dataset():
-    feature_path = 'test_case/test_get_dataset/feature.txt'
+    feature_path = 'tests/test_case/test_get_dataset/feature.txt'
     # Use get_dataset to read in and round up the test data
     test_X_tra, test_Y_tra, test_X_tes, test_Y_tes, MEAN_CONST, STD_CONST = \
         car_speed_detection._get_dataset(feature_path, 0.5, shuf=False)
@@ -168,7 +168,7 @@ def test_train():
     error_list = []
     total_mse = 0.0
     for i in range(0, 1):
-        current_mse, MEAN_CONST, STD_CONST = car_speed_detection.train('test_case/test_train/feature.txt')
+        current_mse, MEAN_CONST, STD_CONST = car_speed_detection.train('tests/test_case/test_train/feature.txt')
         error_list.append(current_mse)
         total_mse += current_mse
         assert current_mse <= 10
@@ -180,9 +180,9 @@ def test_train():
 
 def test_speed_detection():
 
-    model_path = 'test_case/test_speed_detection/test_Model.h5'
-    video = 'test_case/test_speed_detection/test.mp4'
-    output_path = 'test_case/test_speed_detection/test.txt'
+    model_path = 'tests/test_case/test_speed_detection/test_Model.h5'
+    video = 'tests/test_case/test_speed_detection/test.mp4'
+    output_path = 'tests/test_case/test_speed_detection/test.txt'
     MEAN_CONST = [147.7918201, 138.24889951, 116.21455, 106.64215147, 110.28405098,
      121.62982745,  141.48395196,   145.04602255,   171.35321961, 148.17993235,
      110.37138431,  83.55375833,    96.68191618,    140.38086618, 185.07591765,
@@ -205,7 +205,7 @@ def test_speed_detection():
      26.20702268,   30.61206634,    25.81503033]
     car_speed_detection.speed_detection(model_path, video, output_path, 0.5, 8, 6, MEAN_CONST, STD_CONST)
     # read real data
-    ans_path = 'test_case/test_speed_detection/answer.txt'
+    ans_path = 'tests/test_case/test_speed_detection/answer.txt'
     f = open(ans_path, 'r')
     ans_list = f.read().split('\n')
     f.close()
@@ -237,7 +237,7 @@ def test_speed_detection():
     assert sum_for_mse > 5
 
     print("test_speed_detection: PASS")
-    os.remove('test_case/test_speed_detection/test.txt')
+    os.remove('tests/test_case/test_speed_detection/test.txt')
     return True
 
 # Run the testing script
