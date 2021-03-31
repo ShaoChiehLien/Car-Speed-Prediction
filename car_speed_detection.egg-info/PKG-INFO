@@ -1,10 +1,18 @@
-Metadata-Version: 1.0
+Metadata-Version: 2.1
 Name: car-speed-detection
-Version: 0.7.1
-Summary: UNKNOWN
+Version: 0.7.2
+Summary: Speed detection library for automobile
 Home-page: UNKNOWN
 Author: Shao-chieh Lien
 Author-email: shaochiehlien@gmail.com
 License: UNKNOWN
-Description: UNKNOWN
+Description: A package that could serve as a speedometer for autonomous car using dashboard camera
+Keywords: python,car speed detection,software-based speedometer,dashboard camera,optical flow,machine learning,keras
 Platform: UNKNOWN
+Classifier: Development Status :: 1 - Planning
+Classifier: Intended Audience :: Developers
+Classifier: Programming Language :: Python :: 3
+Classifier: Operating System :: Unix
+Classifier: Operating System :: MacOS :: MacOS X
+Classifier: Operating System :: Microsoft :: Windows
+Description-Content-Type: text/markdown
