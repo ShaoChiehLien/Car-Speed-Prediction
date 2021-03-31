@@ -16,7 +16,7 @@ setup(
     long_description_content_type="text/markdown",
     long_description=LONG_DESCRIPTION,
     packages=find_packages(),
-    install_requires=['numpy==1.19.4', 'tensorflow==2.4.1', 'opencv_python==4.5.1.48', 'pandas==1.2.1', 'matplotlib==3.3.4', 'sklearn==0.0'],
+    install_requires=['numpy==1.19.4', 'tensorflow==2.4.1', 'opencv_python==4.5.1.48', 'pandas==1.2.3', 'matplotlib==3.3.4', 'sklearn==0.0'],
     keywords=['python', 'car speed detection', 'software-based speedometer', 'dashboard camera', 'optical flow', 'machine learning', 'keras'],
     classifiers=[
         "Development Status :: 1 - Planning",
