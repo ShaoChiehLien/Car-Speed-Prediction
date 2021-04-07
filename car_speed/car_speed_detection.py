@@ -19,6 +19,9 @@ from tensorflow.keras.optimizers import Adam
 # this function will clear out all files in write path before writing to it
 # return how many jpg files have been write
 def read(read_path, write_dir):
+    """
+      Load a video and process it into images
+    """
     # Check if read_path and write_dir exist
     if not os.path.exists(read_path):
         print(f"read path: '{read_path}' doesn't exist")
