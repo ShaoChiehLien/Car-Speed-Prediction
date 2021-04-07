@@ -10,10 +10,9 @@ Welcome to Car-Speed-Detection's documentation!
    :maxdepth: 2
    :caption: Contents:
 
-.. automodule:: car_speed
-
-.. automodule:: car_speed.car_speed_detection
-   :members:
+   about.rst
+   prerequisites.rst
+   API.rst
 
 
 Indices and tables
