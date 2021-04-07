@@ -15,7 +15,7 @@
     <link rel="author" title="About these documents" href="about.html" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="prev" title="Test prerequisites!" href="prerequisites.html" />
+    <link rel="prev" title="Prerequisites" href="prerequisites.html" />
    
   <link rel="stylesheet" href="_static/custom.css" type="text/css" />
   
@@ -35,14 +35,123 @@
   <div class="section" id="module-car_speed.car_speed_detection">
 <span id="api"></span><h1>API<a class="headerlink" href="#module-car_speed.car_speed_detection" title="Permalink to this headline">¶</a></h1>
 <dl class="py function">
+<dt id="car_speed.car_speed_detection.check_images_match">
+<code class="sig-prename descclassname"><span class="pre">car_speed.car_speed_detection.</span></code><code class="sig-name descname"><span class="pre">check_images_match</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">read_dir</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">image_count</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#car_speed.car_speed_detection.check_images_match" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if the images in the directory matches the image count</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>read_path</strong> (<em>str</em>) – Path to the directory that stored the images</p></li>
+<li><p><strong>image_count</strong> (<em>int</em>) – Image count users expected</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>True if matches, False otherwise.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="car_speed.car_speed_detection.preprocess">
+<code class="sig-prename descclassname"><span class="pre">car_speed.car_speed_detection.</span></code><code class="sig-name descname"><span class="pre">preprocess</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">read_dir</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">train_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_slice</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">8</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_slice</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">6</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#car_speed.car_speed_detection.preprocess" title="Permalink to this definition">¶</a></dt>
+<dd><p>Preprocess all the images and attach each frame with the speed and output a feature.txt file</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>read_dir</strong> (<em>str</em>) – Path to the directory that stored the images</p></li>
+<li><p><strong>train_path</strong> (<em>str</em>) – Path to the file that store the speed of each frame in the video</p></li>
+<li><p><strong>resize</strong> (<em>int</em>) – Ratio factor along horizontal and vertical axis</p></li>
+<li><p><strong>x_slice</strong> (<em>int</em>) – Desired slice along horizontal axis</p></li>
+<li><p><strong>y_slice</strong> (<em>int</em>) – Desired slice along vertical axis</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>time it takes to preprocess the images</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
 <dt id="car_speed.car_speed_detection.read">
 <code class="sig-prename descclassname"><span class="pre">car_speed.car_speed_detection.</span></code><code class="sig-name descname"><span class="pre">read</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">read_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">write_dir</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#car_speed.car_speed_detection.read" title="Permalink to this definition">¶</a></dt>
-<dd><p>Load a video and stored each frame as a jpg file in a new directory
-:param [read_path]: Path to the input video
-:type [read_path]: str, should end with mp4
-:param [write_dir]: Path to the output directory
-:return: [Return the frames that our successfully output to the directory.]
-:rtype: [ReturnType]: int</p>
+<dd><p>Load a video and stored each frame as a jpg file in a new directory.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>read_path</strong> (<em>str</em>) – Path to the input video, should be a mp4 file</p></li>
+<li><p><strong>param</strong> (<em>str</em>) – Path to the output directory</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The index of the last frames being processed</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="car_speed.car_speed_detection.speed_detection">
+<code class="sig-prename descclassname"><span class="pre">car_speed.car_speed_detection.</span></code><code class="sig-name descname"><span class="pre">speed_detection</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">video</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">required_resize</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">required_x_slice</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">required_y_slice</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">MEAN_CONST</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">STD_CONST</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#car_speed.car_speed_detection.speed_detection" title="Permalink to this definition">¶</a></dt>
+<dd><p>Detect the speed of the automobile using the pretrained model and input video</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>model_path</strong> (<em>str</em>) – </p></li>
+<li><p><strong>video</strong> (<em>float</em>) – </p></li>
+<li><p><strong>output_path</strong> (<em>str</em>) – </p></li>
+<li><p><strong>required_resize</strong> (<em>int</em>) – </p></li>
+<li><p><strong>required_x_slice</strong> – </p></li>
+<li><p><strong>required_y_slice</strong> – </p></li>
+<li><p><strong>MEAN_CONST</strong> – </p></li>
+<li><p><strong>STD_CONST</strong> – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>tuple containing:</dt><dd><p>(index (int): index of the last frame that is predicted, detection_time (float): Total time took to predict the speed of the car from the input video)</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>tuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="car_speed.car_speed_detection.train">
+<code class="sig-prename descclassname"><span class="pre">car_speed.car_speed_detection.</span></code><code class="sig-name descname"><span class="pre">train</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">read_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">validation_split</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.75</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">128</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epoch</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#car_speed.car_speed_detection.train" title="Permalink to this definition">¶</a></dt>
+<dd><p>Train the Artifitial Neural Network (ANN) model with the preprocessed feature set</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>read_path</strong> (<em>str</em>) – Path to the file that store the feature set</p></li>
+<li><p><strong>validation_split</strong> (<em>float</em>) – Float between 0 and 1. Fraction of the training data to be used as validation data. The model will set apart this fraction of the training data, will not train on it, and will evaluate the loss and any model metrics on this data at the end of each epoch.</p></li>
+<li><p><strong>batch_size</strong> (<em>str</em>) – Integer or None. Number of samples per gradient update.</p></li>
+<li><p><strong>epoch</strong> (<em>int</em>) – Integer. Number of epochs to train the model. An epoch is an iteration over the entire x and y data provided. Note that in conjunction with initial_epoch, epochs is to be understood as “final epoch”. The model is not trained for a number of iterations given by epochs, but merely until the epoch of index epochs is reached.</p></li>
+<li><p><strong>verbose</strong> (<em>int</em>) – 0, 1, or 2. Verbosity mode. 0 = silent, 1 = progress bar, 2 = one line per epoch. Note that the progress bar is not particularly useful when logged to a file, so verbose=2 is recommended when not running interactively</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>tuple containing:</dt><dd><p>(mse (float): mean square error of the model that is tested with validation data, MEAN_CONST (float): mean value that is used to normalize the feature set, STD_CONST (float): standard deviation value that is used to normalize the feature set)</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>tuple</p>
+</dd>
+</dl>
 </dd></dl>
 
 </div>
@@ -66,8 +175,8 @@
 <h3>Navigation</h3>
 <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="about.html">Test about!</a></li>
-<li class="toctree-l1"><a class="reference internal" href="prerequisites.html">Test prerequisites!</a></li>
+<li class="toctree-l1"><a class="reference internal" href="about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="prerequisites.html">Prerequisites</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">API</a></li>
 </ul>
 
@@ -75,7 +184,7 @@
 <h3>Related Topics</h3>
 <ul>
   <li><a href="index.html">Documentation overview</a><ul>
-      <li>Previous: <a href="prerequisites.html" title="previous chapter">Test prerequisites!</a></li>
+      <li>Previous: <a href="prerequisites.html" title="previous chapter">Prerequisites</a></li>
   </ul></li>
 </ul>
 </div>

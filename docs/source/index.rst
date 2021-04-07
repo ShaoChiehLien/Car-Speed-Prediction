@@ -11,7 +11,6 @@ Welcome to Car-Speed-Detection's documentation!
    :caption: Contents:
 
    about.rst
-   prerequisites.rst
    API.rst
 
 
