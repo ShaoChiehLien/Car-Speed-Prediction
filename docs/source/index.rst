@@ -10,6 +10,9 @@ Welcome to Car-Speed-Detection's documentation!
    :maxdepth: 2
    :caption: Contents:
 
+.. automodule:: car_speed
+
+.. automodule:: car_speed.car_speed_detection
 
 
 Indices and tables
