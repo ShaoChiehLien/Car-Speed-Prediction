@@ -13,6 +13,7 @@ Welcome to Car-Speed-Detection's documentation!
 .. automodule:: car_speed
 
 .. automodule:: car_speed.car_speed_detection
+   :members:
 
 
 Indices and tables
