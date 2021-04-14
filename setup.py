@@ -19,7 +19,7 @@ setup(
     long_description_content_type="text/markdown",
     long_description=LONG_DESCRIPTION,
     packages=find_packages(),
-    license='MIT';
+    license='MIT',
     install_requires=required,
     keywords=['python', 'car speed detection', 'software-based speedometer', 'dashboard camera', 'optical flow', 'machine learning', 'keras'],
     classifiers=[
