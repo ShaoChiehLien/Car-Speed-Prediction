@@ -6,12 +6,13 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>API &#8212; Car-Speed-Detection 0.0.0 documentation</title>
-    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
     <script src="_static/jquery.js"></script>
     <script src="_static/underscore.js"></script>
     <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
     <link rel="author" title="About these documents" href="about.html" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -36,7 +37,7 @@
 <span id="api"></span><h1>API<a class="headerlink" href="#module-car_speed.car_speed_detection" title="Permalink to this headline">¶</a></h1>
 <dl class="py function">
 <dt id="car_speed.car_speed_detection.check_images_match">
-<code class="sig-prename descclassname"><span class="pre">car_speed.car_speed_detection.</span></code><code class="sig-name descname"><span class="pre">check_images_match</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">read_dir</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">image_count</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#car_speed.car_speed_detection.check_images_match" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">car_speed.car_speed_detection.</code><code class="sig-name descname">check_images_match</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">read_dir</span></em>, <em class="sig-param"><span class="n">image_count</span></em><span class="sig-paren">)</span><a class="headerlink" href="#car_speed.car_speed_detection.check_images_match" title="Permalink to this definition">¶</a></dt>
 <dd><p>Check if the images in the directory matches the image count</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -55,8 +56,54 @@
 </dd></dl>
 
 <dl class="py function">
+<dt id="car_speed.car_speed_detection.combine_video_and_speed">
+<code class="sig-prename descclassname">car_speed.car_speed_detection.</code><code class="sig-name descname">combine_video_and_speed</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">video_path</span></em>, <em class="sig-param"><span class="n">speed_path</span></em>, <em class="sig-param"><span class="n">output_path</span><span class="o">=</span><span class="default_value">'combined_video_and_speed.mp4'</span></em><span class="sig-paren">)</span><a class="headerlink" href="#car_speed.car_speed_detection.combine_video_and_speed" title="Permalink to this definition">¶</a></dt>
+<dd><p>Print the speed of the car on each frame in the video</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>video_path</strong> (<em>str</em>) – Path to the video</p></li>
+<li><p><strong>speed_path</strong> (<em>str</em>) – Path to the speed text</p></li>
+<li><p><strong>output_path</strong> (<em>str</em>) – Path to the output</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>True if combining success, False if combining fail</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="car_speed.car_speed_detection.fine_tune">
+<code class="sig-prename descclassname">car_speed.car_speed_detection.</code><code class="sig-name descname">fine_tune</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">read_model_path</span></em>, <em class="sig-param"><span class="n">read_feature_path</span></em>, <em class="sig-param"><span class="n">output_path</span></em>, <em class="sig-param"><span class="n">validation_split</span><span class="o">=</span><span class="default_value">0.75</span></em>, <em class="sig-param"><span class="n">batch_size</span><span class="o">=</span><span class="default_value">128</span></em>, <em class="sig-param"><span class="n">epoch</span><span class="o">=</span><span class="default_value">100</span></em>, <em class="sig-param"><span class="n">verbose</span><span class="o">=</span><span class="default_value">1</span></em><span class="sig-paren">)</span><a class="headerlink" href="#car_speed.car_speed_detection.fine_tune" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load in pretrained model and retrain it with more data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>read_model_path</strong> (<em>str</em>) – Path to the pre-trained model</p></li>
+<li><p><strong>read_feature_path</strong> (<em>str</em>) – Path to the feature set</p></li>
+<li><p><strong>output_path</strong> (<em>str</em>) – Path to the output</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>tuple containing:</dt><dd><p>(mse (float): mean square error of the model that is tested with validation data, MEAN_CONST (float): mean value that is used to normalize the feature set, STD_CONST (float): standard deviation value that is used to normalize the feature set)</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>tuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
 <dt id="car_speed.car_speed_detection.preprocess">
-<code class="sig-prename descclassname"><span class="pre">car_speed.car_speed_detection.</span></code><code class="sig-name descname"><span class="pre">preprocess</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">read_dir</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">train_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_slice</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">8</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_slice</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">6</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#car_speed.car_speed_detection.preprocess" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">car_speed.car_speed_detection.</code><code class="sig-name descname">preprocess</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">read_dir</span></em>, <em class="sig-param"><span class="n">train_path</span></em>, <em class="sig-param"><span class="n">output_path</span></em>, <em class="sig-param"><span class="n">resize</span><span class="o">=</span><span class="default_value">0.5</span></em>, <em class="sig-param"><span class="n">x_slice</span><span class="o">=</span><span class="default_value">8</span></em>, <em class="sig-param"><span class="n">y_slice</span><span class="o">=</span><span class="default_value">6</span></em><span class="sig-paren">)</span><a class="headerlink" href="#car_speed.car_speed_detection.preprocess" title="Permalink to this definition">¶</a></dt>
 <dd><p>Preprocess all the images and attach each frame with the speed and output a feature.txt file</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -79,7 +126,7 @@
 
 <dl class="py function">
 <dt id="car_speed.car_speed_detection.read">
-<code class="sig-prename descclassname"><span class="pre">car_speed.car_speed_detection.</span></code><code class="sig-name descname"><span class="pre">read</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">read_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">write_dir</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#car_speed.car_speed_detection.read" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">car_speed.car_speed_detection.</code><code class="sig-name descname">read</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">read_path</span></em>, <em class="sig-param"><span class="n">write_dir</span></em><span class="sig-paren">)</span><a class="headerlink" href="#car_speed.car_speed_detection.read" title="Permalink to this definition">¶</a></dt>
 <dd><p>Load a video and stored each frame as a jpg file in a new directory.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -99,19 +146,19 @@
 
 <dl class="py function">
 <dt id="car_speed.car_speed_detection.speed_detection">
-<code class="sig-prename descclassname"><span class="pre">car_speed.car_speed_detection.</span></code><code class="sig-name descname"><span class="pre">speed_detection</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">video</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">required_resize</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">required_x_slice</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">required_y_slice</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">MEAN_CONST</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">STD_CONST</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#car_speed.car_speed_detection.speed_detection" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">car_speed.car_speed_detection.</code><code class="sig-name descname">speed_detection</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">model_path</span></em>, <em class="sig-param"><span class="n">video</span></em>, <em class="sig-param"><span class="n">output_path</span></em>, <em class="sig-param"><span class="n">required_resize</span></em>, <em class="sig-param"><span class="n">required_x_slice</span></em>, <em class="sig-param"><span class="n">required_y_slice</span></em>, <em class="sig-param"><span class="n">MEAN_CONST</span></em>, <em class="sig-param"><span class="n">STD_CONST</span></em><span class="sig-paren">)</span><a class="headerlink" href="#car_speed.car_speed_detection.speed_detection" title="Permalink to this definition">¶</a></dt>
 <dd><p>Detect the speed of the automobile using the pretrained model and input video</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>model_path</strong> (<em>str</em>) – </p></li>
-<li><p><strong>video</strong> (<em>float</em>) – </p></li>
-<li><p><strong>output_path</strong> (<em>str</em>) – </p></li>
-<li><p><strong>required_resize</strong> (<em>int</em>) – </p></li>
-<li><p><strong>required_x_slice</strong> – </p></li>
-<li><p><strong>required_y_slice</strong> – </p></li>
-<li><p><strong>MEAN_CONST</strong> – </p></li>
-<li><p><strong>STD_CONST</strong> – </p></li>
+<li><p><strong>model_path</strong> (<em>str</em>) – Path to the pretrained model</p></li>
+<li><p><strong>video</strong> (<em>str</em>) – Path to the video</p></li>
+<li><p><strong>output_path</strong> (<em>str</em>) – Path to the output</p></li>
+<li><p><strong>required_resize</strong> (<em>int</em>) – Resize scale that was used for the pretrained model</p></li>
+<li><p><strong>required_x_slice</strong> – x slice that was used for the pretrained model</p></li>
+<li><p><strong>required_y_slice</strong> – y slice that was used for the pretrained model</p></li>
+<li><p><strong>MEAN_CONST</strong> – Mean of the training set, used to normalize the testing set</p></li>
+<li><p><strong>STD_CONST</strong> – Standard Deviation of the training set, used to normalize the testing set</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -129,7 +176,7 @@
 
 <dl class="py function">
 <dt id="car_speed.car_speed_detection.train">
-<code class="sig-prename descclassname"><span class="pre">car_speed.car_speed_detection.</span></code><code class="sig-name descname"><span class="pre">train</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">read_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">validation_split</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.75</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">128</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epoch</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#car_speed.car_speed_detection.train" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">car_speed.car_speed_detection.</code><code class="sig-name descname">train</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">read_path</span></em>, <em class="sig-param"><span class="n">validation_split</span><span class="o">=</span><span class="default_value">0.75</span></em>, <em class="sig-param"><span class="n">batch_size</span><span class="o">=</span><span class="default_value">128</span></em>, <em class="sig-param"><span class="n">epoch</span><span class="o">=</span><span class="default_value">100</span></em>, <em class="sig-param"><span class="n">verbose</span><span class="o">=</span><span class="default_value">1</span></em><span class="sig-paren">)</span><a class="headerlink" href="#car_speed.car_speed_detection.train" title="Permalink to this definition">¶</a></dt>
 <dd><p>Train the Artifitial Neural Network (ANN) model with the preprocessed feature set</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -213,7 +260,7 @@
       &copy;2021, Shao-Chieh Lien.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.5.3</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.2.1</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
       |

@@ -297,14 +297,14 @@ def speed_detection(model_path, video, output_path, required_resize, required_x_
         Detect the speed of the automobile using the pretrained model and input video
     
         Args:
-            model_path (str):
-            video (float):
-            output_path (str):
-            required_resize (int):
-            required_x_slice:
-            required_y_slice:
-            MEAN_CONST:
-            STD_CONST:
+            model_path (str): Path to the pretrained model
+            video (str): Path to the video
+            output_path (str): Path to the output
+            required_resize (int): Resize scale that was used for the pretrained model
+            required_x_slice: x slice that was used for the pretrained model
+            required_y_slice: y slice that was used for the pretrained model
+            MEAN_CONST: Mean of the training set, used to normalize the testing set
+            STD_CONST: Standard Deviation of the training set, used to normalize the testing set
             
         Returns:
             tuple: tuple containing:
@@ -371,6 +371,17 @@ def speed_detection(model_path, video, output_path, required_resize, required_x_
 
 
 def combine_video_and_speed(video_path, speed_path, output_path='combined_video_and_speed.mp4'):
+    """
+        Print the speed of the car on each frame in the video
+    
+        Args:
+            video_path (str): Path to the video
+            speed_path (str): Path to the speed text
+            output_path (str): Path to the output
+
+        Returns:
+            bool: True if combining success, False if combining fail
+    """
     if not os.path.exists(video_path):
         print(f"video path: '{video_path}' doesn't exist")
         return False
@@ -422,10 +433,23 @@ def combine_video_and_speed(video_path, speed_path, output_path='combined_video_
     cap.release()
     out.release()
     cv2.destroyAllWindows()
+    return True
 
 
 # Load in pretrained model and retrain it with more data
 def fine_tune(read_model_path, read_feature_path, output_path, validation_split=0.75, batch_size=128, epoch=100, verbose=1):
+    """
+        Load in pretrained model and retrain it with more data.
+    
+        Args:
+            read_model_path (str): Path to the pre-trained model
+            read_feature_path (str): Path to the feature set
+            output_path (str): Path to the output
+
+        Returns:
+            tuple: tuple containing:
+                (mse (float): mean square error of the model that is tested with validation data, MEAN_CONST (float): mean value that is used to normalize the feature set, STD_CONST (float): standard deviation value that is used to normalize the feature set)
+    """
     # Check if read_model_path and read_feature_path exist
     if not os.path.exists(read_model_path):
         print(f"read model path: '{read_model_path}' doesn't exist")

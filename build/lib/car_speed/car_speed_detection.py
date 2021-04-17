@@ -19,6 +19,15 @@ from tensorflow.keras.optimizers import Adam
 # this function will clear out all files in write path before writing to it
 # return how many jpg files have been write
 def read(read_path, write_dir):
+    """
+        Load a video and stored each frame as a jpg file in a new directory.
+    
+        Args:
+            read_path (str): Path to the input video, should be a mp4 file
+            param (str): Path to the output directory
+        Returns:
+            int: The index of the last frames being processed
+    """
     # Check if read_path and write_dir exist
     if not os.path.exists(read_path):
         print(f"read path: '{read_path}' doesn't exist")
@@ -62,6 +71,15 @@ def read(read_path, write_dir):
 
 # Check if images in the directory match image_count
 def check_images_match(read_dir, image_count):
+    """
+        Check if the images in the directory matches the image count
+    
+        Args:
+            read_path (str): Path to the directory that stored the images
+            image_count (int): Image count users expected
+        Returns:
+            bool: True if matches, False otherwise.
+    """
     # Check if read directory exists
     if not os.path.exists(read_dir):
         print(f"read directory: '{read_dir}' doesn't exist")
@@ -121,6 +139,18 @@ def _calculate_optical_mag(image1, image2):
 # Preprocess all the images in read_dir, output a .txt file(output_path) containing optical flow matrix
 # for each frame with corresponding speed
 def preprocess(read_dir, train_path, output_path, resize=0.5, x_slice=8, y_slice=6):
+    """
+        Preprocess all the images and attach each frame with the speed and output a feature.txt file
+    
+        Args:
+            read_dir (str): Path to the directory that stored the images
+            train_path (str): Path to the file that store the speed of each frame in the video
+            resize (int): Ratio factor along horizontal and vertical axis
+            x_slice (int): Desired slice along horizontal axis
+            y_slice (int): Desired slice along vertical axis
+        Returns:
+            float: time it takes to preprocess the images
+    """
     start = time.time()  # start counting the preprocess time
     # Check if read directory exists
     if not os.path.exists(read_dir):
@@ -220,6 +250,20 @@ def _get_dataset(read_path, split, shuf=True):
 
 
 def train(read_path, validation_split=0.75, batch_size=128, epoch=100, verbose=1):
+    """
+        Train the Artifitial Neural Network (ANN) model with the preprocessed feature set
+    
+        Args:
+            read_path (str): Path to the file that store the feature set
+            validation_split (float): Float between 0 and 1. Fraction of the training data to be used as validation data. The model will set apart this fraction of the training data, will not train on it, and will evaluate the loss and any model metrics on this data at the end of each epoch.
+            batch_size (str): Integer or None. Number of samples per gradient update.
+            epoch (int): Integer. Number of epochs to train the model. An epoch is an iteration over the entire x and y data provided. Note that in conjunction with initial_epoch, epochs is to be understood as "final epoch". The model is not trained for a number of iterations given by epochs, but merely until the epoch of index epochs is reached.
+            verbose (int): 0, 1, or 2. Verbosity mode. 0 = silent, 1 = progress bar, 2 = one line per epoch. Note that the progress bar is not particularly useful when logged to a file, so verbose=2 is recommended when not running interactively
+            
+        Returns:
+            tuple: tuple containing:
+                (mse (float): mean square error of the model that is tested with validation data, MEAN_CONST (float): mean value that is used to normalize the feature set, STD_CONST (float): standard deviation value that is used to normalize the feature set)
+    """
     # Check if read_path and write_dir exist
     if not os.path.exists(read_path):
         print(f"read path: '{read_path}' doesn't exist")
@@ -249,6 +293,23 @@ def train(read_path, validation_split=0.75, batch_size=128, epoch=100, verbose=1
 
 # read video and output frame by frame
 def speed_detection(model_path, video, output_path, required_resize, required_x_slice, required_y_slice, MEAN_CONST, STD_CONST):
+    """
+        Detect the speed of the automobile using the pretrained model and input video
+    
+        Args:
+            model_path (str): Path to the pretrained model
+            video (str): Path to the video
+            output_path (str): Path to the output
+            required_resize (int): Resize scale that was used for the pretrained model
+            required_x_slice: x slice that was used for the pretrained model
+            required_y_slice: y slice that was used for the pretrained model
+            MEAN_CONST: Mean of the training set, used to normalize the testing set
+            STD_CONST: Standard Deviation of the training set, used to normalize the testing set
+            
+        Returns:
+            tuple: tuple containing:
+                (index (int): index of the last frame that is predicted, detection_time (float): Total time took to predict the speed of the car from the input video)
+    """
     start = time.time()  # start counting the speed_detection
     # Check if model and video exist
     if not os.path.exists(model_path):
@@ -303,13 +364,24 @@ def speed_detection(model_path, video, output_path, required_resize, required_x_
     cv2.destroyAllWindows()
 
     # return how many speed for frame has been outputted
-    prediction_time = time.time() - start
-    print("prediction time: ", prediction_time)
+    detection_time = time.time() - start
+    print("detection time: ", detection_time)
     print("image processed: ", index)
-    return index, prediction_time
+    return index, detection_time
 
 
 def combine_video_and_speed(video_path, speed_path, output_path='combined_video_and_speed.mp4'):
+    """
+        Print the speed of the car on each frame in the video
+    
+        Args:
+            video_path (str): Path to the video
+            speed_path (str): Path to the speed text
+            output_path (str): Path to the output
+
+        Returns:
+            bool: True if combining success, False if combining fail
+    """
     if not os.path.exists(video_path):
         print(f"video path: '{video_path}' doesn't exist")
         return False
@@ -361,10 +433,23 @@ def combine_video_and_speed(video_path, speed_path, output_path='combined_video_
     cap.release()
     out.release()
     cv2.destroyAllWindows()
+    return True
 
 
 # Load in pretrained model and retrain it with more data
 def fine_tune(read_model_path, read_feature_path, output_path, validation_split=0.75, batch_size=128, epoch=100, verbose=1):
+    """
+        Load in pretrained model and retrain it with more data.
+    
+        Args:
+            read_model_path (str): Path to the pre-trained model
+            read_feature_path (str): Path to the feature set
+            output_path (str): Path to the output
+
+        Returns:
+            tuple: tuple containing:
+                (mse (float): mean square error of the model that is tested with validation data, MEAN_CONST (float): mean value that is used to normalize the feature set, STD_CONST (float): standard deviation value that is used to normalize the feature set)
+    """
     # Check if read_model_path and read_feature_path exist
     if not os.path.exists(read_model_path):
         print(f"read model path: '{read_model_path}' doesn't exist")
