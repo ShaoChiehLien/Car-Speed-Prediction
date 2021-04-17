@@ -1,3 +1,11 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:780a5df4f96eb8a7b7a449c91eac187ee86dc6a6b9463eb1cf1e234e12797fe2
-size 5496
+README.md
+setup.py
+car_speed/__init__.py
+car_speed/car_speed_detection.py
+car_speed_detection.egg-info/PKG-INFO
+car_speed_detection.egg-info/SOURCES.txt
+car_speed_detection.egg-info/dependency_links.txt
+car_speed_detection.egg-info/requires.txt
+car_speed_detection.egg-info/top_level.txt
+tests/__init__.py
+tests/car_speed_detection_test.py

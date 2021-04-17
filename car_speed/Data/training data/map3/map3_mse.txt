@@ -1,0 +1,34 @@
+M3v1
+Round1: 13.41
+Round2: 14.59
+Round3: 15.29
+Round4: 14.11
+Round5: 12.85
+
+M3v2
+Round1: 14.26
+Round2: 15.29
+Round3: 15.10
+Round4: 13.47
+Round5: 12.97
+
+M3v3
+Round1: 13.37
+Round2: 11.15
+Round3: 11.51
+Round4: 11.58
+Round5: 11.90
+
+M3v4
+Round1: 12.91
+Round2: 15.25
+Round3: 13.99
+Round4: 13.55
+Round5: 14.48
+
+M3 Overall
+Round1: 16.32
+Round2: 16.47
+Round3: 15.95
+Round4: 15.96
+Round5: 16.02
