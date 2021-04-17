@@ -1,3 +1,22 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:d3e34d53946b43e07fedb6662665defae08abcf3632a2e9760274a29067b8477
-size 497
+.. Car-Speed-Detection documentation master file, created by
+   sphinx-quickstart on Wed Apr  7 13:31:19 2021.
+   You can adapt this file completely to your liking, but it should at least
+   contain the root `toctree` directive.
+
+Welcome to Car-Speed-Detection's documentation!
+===============================================
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Contents:
+
+   about.rst
+   API.rst
+
+
+Indices and tables
+==================
+
+* :ref:`genindex`
+* :ref:`modindex`
+* :ref:`search`

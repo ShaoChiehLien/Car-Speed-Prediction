@@ -1,3 +1,3 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:053bf213b84ff404f88bc1d0b8adf06fd966bcae90e1d0848d715c4df70063d9
-size 662
+About
+===============================================
+Our solution consists of building a python library that can output the speed of the cars in each frame of a video that would be taken from the camera installed in the car. We propose using optical flow, a method that can be used to identify the motion vector of a moving object, which can be used to find the speed of a moving car. The model proposed is a sequential type of artificial neural network (ANN) model which uses the optimizer Adam. The neural network has dense layers which are fully connected layers thereby saving time, and the activation for each layer is ReLu (Rectified Linear Activation).  
