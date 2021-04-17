@@ -1,5 +1,0 @@
-"""
-
-CAR SPEED DETECTION LIBRARY
-
-"""
