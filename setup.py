@@ -22,7 +22,7 @@ setup(
     long_description=long_description,
     packages=find_packages(),
     # Referred to: https://setuptools.readthedocs.io/en/latest/userguide/datafiles.html
-    package_data = {'car_speed': ['*/**/*', '*/**/**/*', '*/**/**/**/*', '*/**/**/**/**/*']},
+    # package_data = {'car_speed': ['*/**/*', '*/**/**/*', '*/**/**/**/*', '*/**/**/**/**/*']},
     license='MIT',
     install_requires=required,
     keywords=['python', 'car speed detection', 'software-based speedometer', 'dashboard camera', 'optical flow', 'machine learning', 'keras'],
@@ -30,7 +30,6 @@ setup(
         "Development Status :: 4 - Beta",
         "Intended Audience :: Developers",
         "Programming Language :: Python :: 3",
-        "Operating System :: Linux",
         "Operating System :: MacOS :: MacOS X",
         "Operating System :: Microsoft :: Windows",
     ]
