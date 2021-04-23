@@ -12,6 +12,7 @@ Welcome to Car-Speed-Detection's documentation!
 
    about.rst
    API.rst
+   Data.rst
 
 
 Indices and tables
