@@ -9,3 +9,5 @@ We used Carla simulator to generate three sets of videos from city map, rural ma
    Download: :download:`Training data for highway map <map4.zip>`
 
    Download: :download:`Training data for rural map <map7.zip>` 
+
+   Download: :download:`Testing readthedoc ability of downloading mp4 <video0.mp4>` 
