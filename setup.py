@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 import codecs
 import os
 
-VERSION = '0.7.5'
+VERSION = '0.7.6'
 DESCRIPTION = 'Speed detection library for automobile'
 
 with open('requirements.txt') as f:
@@ -20,7 +20,7 @@ setup(
     description=DESCRIPTION,
     long_description_content_type="text/markdown",
     long_description=long_description,
-    packages=find_packages(),
+    packages=find_packages(exclude=['tests']),
     # Referred to: https://setuptools.readthedocs.io/en/latest/userguide/datafiles.html
     # package_data = {'car_speed': ['*/**/*', '*/**/**/*', '*/**/**/**/*', '*/**/**/**/**/*']},
     license='MIT',

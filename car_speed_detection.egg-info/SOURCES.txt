@@ -7,5 +7,3 @@ car_speed_detection.egg-info/SOURCES.txt
 car_speed_detection.egg-info/dependency_links.txt
 car_speed_detection.egg-info/requires.txt
 car_speed_detection.egg-info/top_level.txt
-tests/__init__.py
-tests/car_speed_detection_test.py
