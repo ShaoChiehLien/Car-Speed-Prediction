@@ -4,6 +4,8 @@ We used Carla simulator to generate three sets of videos from city map, rural ma
 
 .. only :: builder_html
 
+   Download: :download:`Model for Comma.ai training video <Comma.ai Model.zip>` 
+   
    Download: :download:`Training data for city map <map3.zip>`
 
    Download: :download:`Training data for highway map <map4.zip>`
