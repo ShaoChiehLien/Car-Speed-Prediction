@@ -232,9 +232,10 @@ def test_speed_detection():
     for i in range(0, len(ans_list)):
         temp = ans_list[i]-test_list[i]
         sum_for_mse += (temp * temp)
-    
+        
+    mse_result = sum_for_mse/len(ans_list)
     # mse = mean_squared_error(ans_list, test_list)
-    assert sum_for_mse > 5
+    assert mse_result < 2
 
     print("test_speed_detection: PASS")
     os.remove('tests/test_case/test_speed_detection/test.txt')
