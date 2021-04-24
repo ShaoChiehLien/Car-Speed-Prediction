@@ -7,26 +7,47 @@ Author: Shao-chieh Lien
 Author-email: shaochiehlien@gmail.com
 License: MIT
 Description: # Car-Speed-Detection
-        ## 1.0 Description of Problem:
+        Car-Speed-Detection provides a python library to detect the speed of the driving 
+        car itself by the video stream from the dashboard camera installed on the car.
         
-        The rise of Tesla makes vehicle manufacturers realized that EV (Electronic Vehicle) with Autonomous Driving is the future of the car industry. Now, many vehicle manufacturers have the same plan, transforming the car into an autonomous EV. There are 2 camps from cost post of view. First, Waymo from Google is using a high-cost lidar, and second, Mobileye is using a low-cost camera. As the mature of AI technology and improvement of edge computing, our team believes that it’s possible to squeeze the power of dashboard camera by combining AI and powerful edge devices to achieve a similar performance of high-cost lidar solution. 
+        Car-Speed-Detection separates the speed detection process into three steps, 
+        preprocessing, training, and speed detection. By using Gunnar-Farneback optical flow
+        algorithm along with the pipeline we developed, we are able to extract each frame into
+        a small size matrix depends on developers preference. We use the Artifitial Neural 
+        Network (ANN) to train our model with the preprocessed matrix acquired from preprocessing
+        function. Developers could use the trained model to detect the speed of the car
+        at each frame using our speed detection function.
         
-        ## 2.0 Proposed Solution:
+        ## Getting Started
+        ### Installation
+        Car-Speed-Detection is available on [PyPI](https://pypi.org/project/car-speed-detection/) and can be
+        installed via [`pip`](https://pypi.org/project/pip/). See
+        [car-speed-detection.readthedocs.io](https://car-speed-detection.readthedocs.io/en/latest/)
+        to learn about system dependencies and installation alternatives and
+        recommendations.
         
-        Image Processing and AI are the keys to solve this problem. By using object recognition, the camera could recognize the static structural items like traffic lights, bus stops, or trees and we could then calculate the change of the distance between each frame to get the speed of the car. To recognize different objects in each frame, Machine Learning techniques like convolutional networks will be needed and implemented in this solution.
+        ```shell
+        pip install car-speed-detection
+        ```
         
+        ### Read, Preprocess, Train, and Detect the Car Speed
+        The [Car-Speed-Detection](https://pypi.org/project/car-speed-detection/) library consists of the
+        following parts:
+        - Read (Read the mp4 video and output each frame into a designated directory)
+        - Preprocess (Preprocess each frame and output a feature set for training)
+        - Train (Train the model using the feature set and Artifitial Neural Network)
+        - Speed Detection (Detect the speed using the model and video)
         
-        ## 3.0 Market Analysis
+        Take a look at the [API](https://car-speed-detection.readthedocs.io/en/latest/API.html#) to know more about
+        the Application Programming Interface and Sample for further information on how to use our library
         
-        The camera is the eye for the automobile. Being able to recognize the speed will increase the automobile’s awareness of its environment and allowed them to control the car fluently without putting the car driver in danger. Speed recognition used to be implemented with lidar, infrared sensing, and ultrasonic sensing, but the rise of image processing and Machine Learning allowed us to accomplish the same goal with simply a camera which could save more than $1000 per car, and therefore, save more than $92 billion per year for car producer.
+        ## Result
         
-        ## 4.0 Competitive Analysis
-        
-        Our main competitive edges are price and efficiency. Without using expensive sensors like lidar, dual camera, infrared sensor and ultrasonic sensor that could cost more than $1000 each, people can simply use a cheap camera to easily detect car speed and possibly more scenarios like to follow the lane and to keep distance with front car frequently used in ADAS by using our library. By saving money and creating a new value for the low price camera, our library could create a win-win situation for the vehicle industry.
-        
-        ## 5.0 Team Members
+        ## Acknowledge
         Team Leader and Software Architecture: Shao-Chieh Lien 
+        
         Research Paper Writer: Meenakshi Pavithran 
+        
         Training Data Generator: Christopher Crocker 
         
 Keywords: python,car speed detection,software-based speedometer,dashboard camera,optical flow,machine learning,keras
