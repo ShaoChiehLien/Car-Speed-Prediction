@@ -6,6 +6,12 @@
 Welcome to Car-Speed-Detection's documentation!
 ===============================================
 
+.. only:: html
+
+   .. figure:: https://github.com/ShaoChiehLien/Car-Speed-Detection/blob/main/GIFforReadme.gif
+      
+	Using our library to detect the speed of your car!
+
 **********************
 Getting Started
 **********************

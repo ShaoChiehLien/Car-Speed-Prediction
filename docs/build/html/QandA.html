@@ -35,39 +35,39 @@
             
   <div class="section" id="q-a">
 <h1>Q&amp;A<a class="headerlink" href="#q-a" title="Permalink to this headline">¶</a></h1>
-<p>In this section, we provided answer to the questions people have asked about this library.</p>
-<div class="section" id="q1-what-is-purpose-of-using-this-library">
-<h2>Q1: What is purpose of using this library?<a class="headerlink" href="#q1-what-is-purpose-of-using-this-library" title="Permalink to this headline">¶</a></h2>
+<p>In this section, we provide answers to the common questions people have asked about this library.</p>
+<div class="section" id="q1-what-is-the-purpose-of-using-this-library">
+<h2>Q1: What is the purpose of using this library?<a class="headerlink" href="#q1-what-is-the-purpose-of-using-this-library" title="Permalink to this headline">¶</a></h2>
 <blockquote>
-<div><p>This library provides a camera-based solution that allow developer to train the model, and detect the speed of the car using the preprocess technique and ANN we proposed.</p>
+<div><p>This library provides a camera-based solution that allows developers to use their own data or the data we provide to train the model, and detect the speed of the car using the preprocessing technique and ANN we propose.</p>
 </div></blockquote>
 </div>
 <div class="section" id="q2-why-should-i-choose-your-library">
 <h2>Q2: Why should I choose your library?<a class="headerlink" href="#q2-why-should-i-choose-your-library" title="Permalink to this headline">¶</a></h2>
 <blockquote>
-<div><p>Our library is aiming to increase the accuracy and reduce the latency so that it would be more suitable in the scenarios that doesn’t have strong GPU, like most of the cars these days. We were able to achieve MSE of 2 with 45 times less parameters used than the <a class="reference external" href="https://ucladatares.medium.com/predicting-speed-from-video-frames-dissecting-the-comma-ai-challenge-5da697b55886">research done by UCLA</a></p>
+<div><p>Our library is aiming to increase the accuracy and reduce the latency so that it could be run on all kinds of machines and not limited only to computers that have strong GPU, suitable for most cars these days. We are able to achieve MSE of 2 with 45 times fewer parameters used than the <a class="reference external" href="https://ucladatares.medium.com/predicting-speed-from-video-frames-dissecting-the-comma-ai-challenge-5da697b55886">research done by UCLA</a></p>
 </div></blockquote>
 </div>
 <div class="section" id="q3-how-do-i-use-this-library">
 <h2>Q3: How do I use this library?<a class="headerlink" href="#q3-how-do-i-use-this-library" title="Permalink to this headline">¶</a></h2>
 <blockquote>
-<div><p>We provided example code and API to help developers to understand how to use our library. See <a class="reference external" href="https://car-speed-detection.readthedocs.io/en/latest/Example%20Code.html">Example code</a> and <a class="reference external" href="https://car-speed-detection.readthedocs.io/en/latest/API.html">API</a> to know more.</p>
+<div><p>We provide example code and API to help developers to understand how to use our library. See <a class="reference external" href="https://car-speed-detection.readthedocs.io/en/latest/Example%20Code.html">Example code</a> and <a class="reference external" href="https://car-speed-detection.readthedocs.io/en/latest/API.html">API</a> to know more.</p>
 </div></blockquote>
 </div>
 <div class="section" id="q4-what-is-optical-flow">
 <h2>Q4: What is optical flow?<a class="headerlink" href="#q4-what-is-optical-flow" title="Permalink to this headline">¶</a></h2>
 <blockquote>
-<div><p>Optical flow is an algorithm that allow us to capture the moving object between frames and transfer it into a velocity matrix. With optical flow, we could extract the information we need and get rid of the noises before training it with ANN.</p>
+<div><p>Optical flow is an algorithm that allows us to capture the moving object between two frames and transfer it into a velocity matrix. With optical flow, we could extract the information we need and get rid of the noises before training it with ANN.</p>
 </div></blockquote>
 </div>
-<div class="section" id="q5-why-using-ann-model-instead-of-other-networks-for-training-model">
-<h2>Q5: Why using ANN model instead of other networks for training model?<a class="headerlink" href="#q5-why-using-ann-model-instead-of-other-networks-for-training-model" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="q5-why-using-the-ann-instead-of-other-networks-to-train-the-model">
+<h2>Q5: Why using the ANN instead of other networks to train the model?<a class="headerlink" href="#q5-why-using-the-ann-instead-of-other-networks-to-train-the-model" title="Permalink to this headline">¶</a></h2>
 <blockquote>
-<div><p>In our solution, the feature set we acquired from the preprocessing function has already contained the spatial relationship at each parameters, so we don’t need to use the CNN to capture the spatial relationship again. The benefit of using ANN rather than CNN is that we could substantially reduce the parameters needed to train the model, which could save us lots of time.</p>
+<div><p>In our solution, the feature set we acquire from the preprocessing function has already contained the spatial relationship in each parameter, so we don’t need to use the CNN to capture the spatial relationship again. The benefit of using ANN rather than CNN is that we could substantially reduce the parameters needed to train the model, which could reduce the latency greatly.</p>
 </div></blockquote>
 </div>
-<div class="section" id="q6-is-this-library-used-for-detecting-other-car-s-speed-or-the-car-i-am-driving">
-<h2>Q6: Is this library used for detecting other car’s speed or the car I am driving?<a class="headerlink" href="#q6-is-this-library-used-for-detecting-other-car-s-speed-or-the-car-i-am-driving" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="q6-is-this-library-used-for-detecting-other-cars-speeds-or-the-car-i-am-driving">
+<h2>Q6: Is this library used for detecting other cars’ speeds or the car I am driving?<a class="headerlink" href="#q6-is-this-library-used-for-detecting-other-cars-speeds-or-the-car-i-am-driving" title="Permalink to this headline">¶</a></h2>
 <blockquote>
 <div><p>This library detects the speed of the car you are driving based on the video stream from your dashboard camera.</p>
 </div></blockquote>
@@ -75,19 +75,19 @@
 <div class="section" id="q7-do-you-provide-data-for-training-the-model">
 <h2>Q7: Do you provide data for training the model?<a class="headerlink" href="#q7-do-you-provide-data-for-training-the-model" title="Permalink to this headline">¶</a></h2>
 <blockquote>
-<div><p>Yes, we generated 150 minutes <a href="#id1"><span class="problematic" id="id2">`training video &lt;https://car-speed-detection.readthedocs.io/en/latest/Data.html`_</span></a> using the car simulator <a class="reference external" href="https://carla.org/">Carla</a> that allows people to use it to train based on their operational domain. See more about <a class="reference external" href="https://github.com/CrockerC/carla_recording.git">this Github repository</a> to know more about how we generated the data.</p>
+<div><p>Yes, we provide 150 minutes of <a class="reference external" href="https://car-speed-detection.readthedocs.io/en/latest/Data.html">training video</a> generated from the car simulator <a class="reference external" href="https://carla.org/">Carla</a> that allows people to use it to train the model based on their operational domain. See more about <a class="reference external" href="https://github.com/CrockerC/carla_recording.git">this Github repository developed by Christopher Crocker</a> to know more about how we generated the data.</p>
 </div></blockquote>
 </div>
 <div class="section" id="q8-what-library-or-package-are-used-in-this-library">
 <h2>Q8: What library or package are used in this library?<a class="headerlink" href="#q8-what-library-or-package-are-used-in-this-library" title="Permalink to this headline">¶</a></h2>
 <blockquote>
-<div><p>We provides <a class="reference external" href="https://github.com/ShaoChiehLien/Car-Speed-Detection/blob/main/car_speed/bom.json">Software Bill of Material</a> using <a class="reference external" href="https://github.com/CycloneDX/cyclonedx-python">CycloneDX</a> that helps developers to understand our software architecture and could base on their need to decide whether they want to use our library.</p>
+<div><p>We provide <a class="reference external" href="https://github.com/ShaoChiehLien/Car-Speed-Detection/blob/main/car_speed/bom.json">Software Bill of Material</a> using <a class="reference external" href="https://github.com/CycloneDX/cyclonedx-python">CycloneDX</a> that helps developers to understand our software architecture and could base on their need to decide whether they want to use our library.</p>
 </div></blockquote>
 </div>
-<div class="section" id="q9-what-is-software-bill-of-material-sob">
-<h2>Q9: What is Software Bill of Material(SOB)?<a class="headerlink" href="#q9-what-is-software-bill-of-material-sob" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="q9-what-is-the-software-bill-of-material-sob">
+<h2>Q9: What is the Software Bill of Material(SOB)?<a class="headerlink" href="#q9-what-is-the-software-bill-of-material-sob" title="Permalink to this headline">¶</a></h2>
 <blockquote>
-<div><p>Software Bill of Material could trace down to the root library of all libraries that are included in our library. Many users have their preference or security concern about certain library. They could use the SOB we provided to make sure it could satisfies their requirement. SOB also provides Hash Code for integrity check for each library that’s included in our solution.</p>
+<div><p>Software Bill of Material could trace down to the root library of all libraries that are included in our solution. Many users have their preference or security concerns about the certain library. They could use the SOB we provided to make sure it could satisfy their requirement. SOB also provides Hash Code for integrity checks for each library that’s included in our solution.</p>
 </div></blockquote>
 </div>
 <div class="section" id="q10-is-software-bill-of-material-sob-provided-in-this-project">
@@ -99,11 +99,14 @@
 <div class="section" id="q11-what-license-is-provided-for-this-library">
 <h2>Q11: What license is provided for this library?<a class="headerlink" href="#q11-what-license-is-provided-for-this-library" title="Permalink to this headline">¶</a></h2>
 <blockquote>
-<div><p>We choose MIT license since we want this library to be open-sourced and can be accessed by everyone.</p>
+<div><p>We choose the MIT license since we want this library to be open-sourced and can be accessed by everyone.</p>
 </div></blockquote>
 </div>
-<div class="section" id="q12-future-work">
-<h2>Q12: Future work?<a class="headerlink" href="#q12-future-work" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="q12-more-question">
+<h2>Q12: More Question?<a class="headerlink" href="#q12-more-question" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><p>Feel free to contact Shao-Chieh Lien at <a class="reference external" href="mailto:lienshaochieh&#37;&#52;&#48;gmail&#46;com">lienshaochieh<span>&#64;</span>gmail<span>&#46;</span>com</a> if you have any more questions!</p>
+</div></blockquote>
 </div>
 </div>
 
@@ -130,18 +133,18 @@
 <li class="toctree-l1"><a class="reference internal" href="Data.html">Data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Example%20Code.html">Example Code</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Q&amp;A</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#q1-what-is-purpose-of-using-this-library">Q1: What is purpose of using this library?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#q1-what-is-the-purpose-of-using-this-library">Q1: What is the purpose of using this library?</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#q2-why-should-i-choose-your-library">Q2: Why should I choose your library?</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#q3-how-do-i-use-this-library">Q3: How do I use this library?</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#q4-what-is-optical-flow">Q4: What is optical flow?</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#q5-why-using-ann-model-instead-of-other-networks-for-training-model">Q5: Why using ANN model instead of other networks for training model?</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#q6-is-this-library-used-for-detecting-other-car-s-speed-or-the-car-i-am-driving">Q6: Is this library used for detecting other car’s speed or the car I am driving?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#q5-why-using-the-ann-instead-of-other-networks-to-train-the-model">Q5: Why using the ANN instead of other networks to train the model?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#q6-is-this-library-used-for-detecting-other-cars-speeds-or-the-car-i-am-driving">Q6: Is this library used for detecting other cars’ speeds or the car I am driving?</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#q7-do-you-provide-data-for-training-the-model">Q7: Do you provide data for training the model?</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#q8-what-library-or-package-are-used-in-this-library">Q8: What library or package are used in this library?</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#q9-what-is-software-bill-of-material-sob">Q9: What is Software Bill of Material(SOB)?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#q9-what-is-the-software-bill-of-material-sob">Q9: What is the Software Bill of Material(SOB)?</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#q10-is-software-bill-of-material-sob-provided-in-this-project">Q10: Is Software Bill of Material(SOB) provided in this project?</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#q11-what-license-is-provided-for-this-library">Q11: What license is provided for this library?</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#q12-future-work">Q12: Future work?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#q12-more-question">Q12: More Question?</a></li>
 </ul>
 </li>
 </ul>
