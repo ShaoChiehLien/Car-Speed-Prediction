@@ -35,7 +35,7 @@ Take a look at the [API](https://car-speed-detection.readthedocs.io/en/latest/AP
 the Application Programming Interface and [Sample](https://car-speed-detection.readthedocs.io/en/latest/Example%20Code.html) for further information on how to use our library.
 
 ## Result
-In our Example Code, we are able to train the model with MSE error less than 2 with the training 
+In our [example code](https://car-speed-detection.readthedocs.io/en/latest/Example%20Code.html), we are able to train the model with MSE error less than 2 with the training 
 video provided by comma.ai. We separated the video into 75% for training and 25% for testing so the result woud
 be fair. 
 
