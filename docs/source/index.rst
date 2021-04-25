@@ -42,6 +42,10 @@ Content
 Acknowledge
 ########################
 
+This project is managed by Shao-Chieh Lien, the software architect and student at Purdue University.
+
+Meenakshi Pavithran and Christopher Crocker contributed substantially in this project. Meenakshi was in charge or paper writing and Christopher Crocker was in charge of generating the training data that could be seen from the `link <https://github.com/CrockerC/carla_recording>`_
+
 
 
 Indices and tables
