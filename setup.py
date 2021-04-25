@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 import codecs
 import os
 
-VERSION = '0.7.6'
+VERSION = '0.7.7'
 DESCRIPTION = 'Speed detection library for automobile'
 
 with open('requirements.txt') as f:
