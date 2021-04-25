@@ -1,4 +1,6 @@
 # Camera-based Car Speed Detection for Autonomous Driving
+![Using our library with optical flow to detect the speed for the car](https://github.com/ShaoChiehLien/Car-Speed-Detection/blob/main/GIFforReadme.gif)
+
 Car-Speed-Detection provides a python library to detect the speed of the driving 
 car itself by the video stream from the dashboard camera installed on the car.
 
