@@ -3,7 +3,6 @@ Example Code
 This example code demonstrate how to read, preprocess, train, and detect the speed using our library. 
 
 .. code-block:: python
-    :linenos:
 
     import car_speed.car_speed_detection as car_speed
 

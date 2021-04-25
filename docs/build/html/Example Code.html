@@ -36,13 +36,7 @@
   <div class="section" id="example-code">
 <h1>Example Code<a class="headerlink" href="#example-code" title="Permalink to this headline">¶</a></h1>
 <p>This example code demonstrate how to read, preprocess, train, and detect the speed using our library.</p>
-<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
-2
-3
-4
-5
-6
-7</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">car_speed.car_speed_detection</span> <span class="k">as</span> <span class="nn">car_speed</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">car_speed.car_speed_detection</span> <span class="k">as</span> <span class="nn">car_speed</span>
 
 <span class="n">car_speed</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="s1">&#39;train.mp4&#39;</span><span class="p">,</span> <span class="s1">&#39;Car_Detection_images/&#39;</span><span class="p">)</span>
 <span class="n">car_speed</span><span class="o">.</span><span class="n">preprocess</span><span class="p">(</span><span class="s1">&#39;Car_Detection_images&#39;</span><span class="p">,</span> <span class="s1">&#39;train.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;feature.txt&#39;</span><span class="p">,</span> <span class="n">resize</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">,</span> <span class="n">x_slice</span> <span class="o">=</span> <span class="mi">8</span><span class="p">,</span> <span class="n">y_slice</span> <span class="o">=</span> <span class="mi">6</span><span class="p">)</span>
@@ -50,7 +44,7 @@
 <span class="n">car_speed</span><span class="o">.</span><span class="n">speed_detection</span><span class="p">(</span><span class="s1">&#39;Model.h5&#39;</span><span class="p">,</span> <span class="s1">&#39;test.mp4&#39;</span><span class="p">,</span> <span class="s1">&#39;detect_result.txt&#39;</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="n">MEAN_CONST</span><span class="p">,</span> <span class="n">STD_CONST</span><span class="p">)</span>
 <span class="n">car_speed</span><span class="o">.</span><span class="n">combine_video_and_speed</span><span class="p">(</span><span class="s1">&#39;test.mp4&#39;</span><span class="p">,</span> <span class="s1">&#39;detect_result.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;test_with_speed.mp4&#39;</span><span class="p">)</span>
 </pre></div>
-</td></tr></table></div>
+</div>
 <div class="section" id="line-by-line-explanation">
 <h2>Line by line explanation<a class="headerlink" href="#line-by-line-explanation" title="Permalink to this headline">¶</a></h2>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">car_speed.car_speed_detection</span> <span class="k">as</span> <span class="nn">car_speed</span>
@@ -97,7 +91,6 @@
 
 
 <h3>Navigation</h3>
-<p class="caption"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="about.html">About</a></li>
 <li class="toctree-l1"><a class="reference internal" href="API.html">API</a></li>
