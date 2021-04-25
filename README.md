@@ -35,9 +35,8 @@ Take a look at the [API](https://car-speed-detection.readthedocs.io/en/latest/AP
 the Application Programming Interface and [Sample](https://car-speed-detection.readthedocs.io/en/latest/Example%20Code.html) for further information on how to use our library.
 
 ## Result
-In our [example code](https://car-speed-detection.readthedocs.io/en/latest/Example%20Code.html), we are able to train the model with MSE error less than 2 with the training 
-video provided by comma.ai. We separated the video into 75% for training and 25% for testing so the result woud
-be fair. The model has also substaintially lesser parameters (< 45,000) used for the ANN model, which yeild a lower latency 
+In our [example code](https://car-speed-detection.readthedocs.io/en/latest/Example%20Code.html), we are able to train the model with MSE error less than 2 using the training video provided by comma.ai. We separate the video into 75% for training and 25% for testing so the result woud
+be fair. The ANN model has also substaintially small amount of parameters (< 45,000), which yeild a lower latency 
 compare to [other solutions](https://ucladatares.medium.com/predicting-speed-from-video-frames-dissecting-the-comma-ai-challenge-5da697b55886).
 
 ## Bugs Report
