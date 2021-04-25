@@ -1,0 +1,157 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Example Code &#8212; Car-Speed-Detection 0.0.0 documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <link rel="author" title="About these documents" href="about.html" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Data" href="Data.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="example-code">
+<h1>Example Code<a class="headerlink" href="#example-code" title="Permalink to this headline">¶</a></h1>
+<p>This example code demonstrate how to read, preprocess, train, and detect the speed using our library.</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">car_speed.car_speed_detection</span> <span class="k">as</span> <span class="nn">car_speed</span>
+
+<span class="n">car_speed</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="s1">&#39;train.mp4&#39;</span><span class="p">,</span> <span class="s1">&#39;Car_Detection_images/&#39;</span><span class="p">)</span>
+<span class="n">car_speed</span><span class="o">.</span><span class="n">preprocess</span><span class="p">(</span><span class="s1">&#39;Car_Detection_images&#39;</span><span class="p">,</span> <span class="s1">&#39;train.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;feature.txt&#39;</span><span class="p">,</span> <span class="n">resize</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">,</span> <span class="n">x_slice</span> <span class="o">=</span> <span class="mi">8</span><span class="p">,</span> <span class="n">y_slice</span> <span class="o">=</span> <span class="mi">6</span><span class="p">)</span>
+<span class="n">mse</span><span class="p">,</span> <span class="n">MEAN_CONST</span><span class="p">,</span> <span class="n">STD_CONST</span> <span class="o">=</span> <span class="n">car_speed</span><span class="o">.</span><span class="n">train</span><span class="p">(</span><span class="s1">&#39;feature.txt&#39;</span><span class="p">)</span>
+<span class="n">car_speed</span><span class="o">.</span><span class="n">speed_detection</span><span class="p">(</span><span class="s1">&#39;Model.h5&#39;</span><span class="p">,</span> <span class="s1">&#39;test.mp4&#39;</span><span class="p">,</span> <span class="s1">&#39;detect_result.txt&#39;</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="n">MEAN_CONST</span><span class="p">,</span> <span class="n">STD_CONST</span><span class="p">)</span>
+<span class="n">car_speed</span><span class="o">.</span><span class="n">combine_video_and_speed</span><span class="p">(</span><span class="s1">&#39;test.mp4&#39;</span><span class="p">,</span> <span class="s1">&#39;detect_result.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;test_with_speed.mp4&#39;</span><span class="p">)</span>
+</pre></div>
+</td></tr></table></div>
+<div class="section" id="line-by-line-explanation">
+<h2>Line by line explanation<a class="headerlink" href="#line-by-line-explanation" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">car_speed.car_speed_detection</span> <span class="k">as</span> <span class="nn">car_speed</span>
+</pre></div>
+</div>
+<p>Import the the car_speed_detection module from car_speed library as car_speed.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">car_speed</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="s1">&#39;train.mp4&#39;</span><span class="p">,</span> <span class="s1">&#39;Car_Detection_images/&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Read the training video from ‘train.mp4’ and store each frame into the ‘Car_Detection_images/’ directory.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">car_speed</span><span class="o">.</span><span class="n">preprocess</span><span class="p">(</span><span class="s1">&#39;Car_Detection_images&#39;</span><span class="p">,</span> <span class="s1">&#39;train.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;feature.txt&#39;</span><span class="p">,</span> <span class="n">resize</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">,</span> <span class="n">x_slice</span> <span class="o">=</span> <span class="mi">8</span><span class="p">,</span> <span class="n">y_slice</span> <span class="o">=</span> <span class="mi">6</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Read in all the frames two by two, resize them two 0.5 of the original size, calculate the optical flow between two frames, and slice the output into 8 by 6 matrix, and flatten it into 1*48 array. If there are n frames, the output feature.txt would be a size n*48 matrix.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">mse</span><span class="p">,</span> <span class="n">MEAN_CONST</span><span class="p">,</span> <span class="n">STD_CONST</span> <span class="o">=</span> <span class="n">car_speed</span><span class="o">.</span><span class="n">train</span><span class="p">(</span><span class="s1">&#39;feature.txt&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Read in the feature set that was output from the preprocess function and train it with our Artificial Neural Network. The output would be a file named Model.h5. Note that the function output MEAN_CONST and STD_CONST will be needed for speed_detection to normalized its data.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">car_speed</span><span class="o">.</span><span class="n">speed_detection</span><span class="p">(</span><span class="s1">&#39;Model.h5&#39;</span><span class="p">,</span> <span class="s1">&#39;test.mp4&#39;</span><span class="p">,</span> <span class="s1">&#39;detect_result.txt&#39;</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="n">MEAN_CONST</span><span class="p">,</span> <span class="n">STD_CONST</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Use the model ‘Model.h5’ to detect the speed of the car in the video ‘test.mp4’ and output the speed result to ‘detect_result.txt’. Note that resize argument (0.5), x_slice argument (8), and y_slice argument (6), MEAN_CONST, and STD_CONST should be the same as the arguments that are used for preprocessing the model ‘Model.h5’.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">car_speed</span><span class="o">.</span><span class="n">combine_video_and_speed</span><span class="p">(</span><span class="s1">&#39;test.mp4&#39;</span><span class="p">,</span> <span class="s1">&#39;detect_result.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;test_with_speed.mp4&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Print the speed of each frame on the video so it would be easier to visualize the result.</p>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">Car-Speed-Detection</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="API.html">API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Data.html">Data</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Example Code</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#line-by-line-explanation">Line by line explanation</a></li>
+</ul>
+</li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="Data.html" title="previous chapter">Data</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2021, Shao-Chieh Lien.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.2.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/Example Code.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

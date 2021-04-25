@@ -1,3 +1,5 @@
 About
 ===============================================
-Our solution consists of building a python library that can output the speed of the cars in each frame of a video that would be taken from the camera installed in the car. We propose using optical flow, a method that can be used to identify the motion vector of a moving object, which can be used to find the speed of a moving car. The model proposed is a sequential type of artificial neural network (ANN) model which uses the optimizer Adam. The neural network has dense layers which are fully connected layers thereby saving time, and the activation for each layer is ReLu (Rectified Linear Activation).  
+Car-Speed-Detection provides a python library to detect the speed of the driving car itself by the video stream from the dashboard camera installed on the car.
+
+Car-Speed-Detection separates the speed detection process into three steps, preprocessing, training, and speed detection. By using Gunnar-Farneback optical flow algorithm along with the pipeline we developed, we are able to extract each frame into a small size matrix depends on developers preference. We use the Artifitial Neural Network (ANN) to train our model with the preprocessed matrix acquired from preprocessing function. Developers could use the trained model to detect the speed of the car at each frame using our speed detection function.
