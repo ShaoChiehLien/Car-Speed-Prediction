@@ -30,14 +30,28 @@ following parts:
 - Train (Train the model using the feature set and Artifitial Neural Network)
 - Speed Detection (Detect the speed using the model and video)
 
+## API and Example Code
 Take a look at the [API](https://car-speed-detection.readthedocs.io/en/latest/API.html#) to know more about
-the Application Programming Interface and Sample for further information on how to use our library
+the Application Programming Interface and [Sample](https://car-speed-detection.readthedocs.io/en/latest/Example%20Code.html) for further information on how to use our library.
 
 ## Result
+In our Example Code, we are able to train the model with MSE error less than 2 with the training 
+video provided by comma.ai. We separated the video into 75% for training and 25% for testing so the result woud
+be fair. 
+
+## Bugs Report
+Issues and bugs can be reported by emailing lienshaochieh@gmail.com
+
+At a minimum, the report must contain the following:
+* Description of the program.
+* Expected Result.
+* Actual Result.
+* Steps to reproduce the issue.
+
+Please do not use the GitHub issue tracker to submit bugs reports. The
+issue tracker is intended to make feature requests.
 
 ## Acknowledge
-Team Leader and Software Architecture: Shao-Chieh Lien 
-
-Research Paper Writer: Meenakshi Pavithran 
-
-Training Data Generator: Christopher Crocker 
+This project is managed by Shao-Chieh Lien, the software architect and students at Purdue University. Meenakshi 
+Pavithran and Christopher Crocker also contribute substaintially in this project. Meenakshi is in charge or 
+paper writing and Christopher Croker is in charge of [training and testing data generation](https://github.com/CrockerC/carla_recording).
