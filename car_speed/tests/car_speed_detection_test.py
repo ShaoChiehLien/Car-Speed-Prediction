@@ -28,7 +28,7 @@ def test_read():
         try:
             assert os.path.exists(write_dir + str(index) + '.jpg')
         except AssertionError:
-            assert os.listdir(write_dir) != None
+            raise Exception("os.listdir(write_dir)")
 
     # Delete the testing file
     shutil.rmtree(write_dir)
