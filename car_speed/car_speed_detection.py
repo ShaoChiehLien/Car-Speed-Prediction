@@ -353,9 +353,10 @@ def speed_detection(model_path, video, output_path, required_resize, required_x_
         # flatten the matrix so it could be input to the CNN model
         predictions = model.predict(x=images_to_predict)[0][0]
         f.write(str(predictions) + '\n')
-        print(predictions)
         index += 1
-        print(index)
+        if index % 1000 == 0:  # print out the index every 1000 images
+            print(index)
+            print(predictions)
         image1 = image2
 
     f.write(str(predictions))  # copy the last one again cause the frame difference
