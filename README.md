@@ -17,8 +17,7 @@ at each frame using our speed detection function.
 Car-Speed-Detection is available on [PyPI](https://pypi.org/project/car-speed-detection/) and can be
 installed via [`pip`](https://pypi.org/project/pip/). See
 [car-speed-detection.readthedocs.io](https://car-speed-detection.readthedocs.io/en/latest/)
-to learn about system dependencies and installation alternatives and
-recommendations.
+to learn about the API and Q&A of our library.
 
 ```shell
 pip install car-speed-detection
