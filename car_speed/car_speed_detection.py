@@ -20,13 +20,13 @@ from tensorflow.keras.optimizers import Adam
 # return how many jpg files have been write
 def read(read_path, write_dir):
     """
-        Load a video and stored each frame as a jpg file in a new directory.
+        Load a mp4 video from 'read_path' and stored each frame as a jpg file in a new directory 'write_dir'.
     
         Args:
-            read_path (str): Path to the input video, should be a mp4 file
-            param (str): Path to the output directory
+            read_path (str): Path to the input video, should be a mp4 file.
+            param (str): Path to the output directory.
         Returns:
-            int: The index of the last frames being processed
+            int: The index of the last frames being processed.
     """
     # Check if read_path and write_dir exist
     if not os.path.exists(read_path):
@@ -72,11 +72,11 @@ def read(read_path, write_dir):
 # Check if images in the directory match image_count
 def check_images_match(read_dir, image_count):
     """
-        Check if the images in the directory matches the image count
+        Check if the images in the directory 'read_dir' match the image count 'image_count'.
     
         Args:
-            read_path (str): Path to the directory that stored the images
-            image_count (int): Image count users expected
+            read_path (str): Path to the directory that stored the images.
+            image_count (int): Image count users expected.
         Returns:
             bool: True if matches, False otherwise.
     """
@@ -140,16 +140,17 @@ def _calculate_optical_mag(image1, image2):
 # for each frame with corresponding speed
 def preprocess(read_dir, train_path, output_path, resize=0.5, x_slice=8, y_slice=6):
     """
-        Preprocess all the images and attach each frame with the speed and output a feature.txt file
+        Preprocess all the images stored in directory 'read_dir' and attach each frame with the corresponding speed stored at 'train_path' and output the feature set to a txt file at 'output_path'.
     
         Args:
-            read_dir (str): Path to the directory that stored the images
-            train_path (str): Path to the file that store the speed of each frame in the video
-            resize (int): Ratio factor along horizontal and vertical axis
-            x_slice (int): Desired slice along horizontal axis
-            y_slice (int): Desired slice along vertical axis
+            read_dir (str): Path to the directory that stored the images.
+            train_path (str): Path to the file that store the speed of each frame in the video.
+            output_path (str): Path to the output file that stored the feature set.
+            resize (int): Ratio factor along horizontal and vertical axis.
+            x_slice (int): Desired slice along horizontal axis.
+            y_slice (int): Desired slice along vertical axis.
         Returns:
-            float: time it takes to preprocess the images
+            float: Time it takes to preprocess the images.
     """
     start = time.time()  # start counting the preprocess time
     # Check if read directory exists
@@ -251,18 +252,18 @@ def _get_dataset(read_path, split, shuf=True):
 
 def train(read_path, validation_split=0.75, batch_size=128, epoch=100, verbose=1):
     """
-        Train the Artifitial Neural Network (ANN) model with the preprocessed feature set
+        Train the Artifitial Neural Network (ANN) model with the preprocessed feature set stored in 'read_path' and stored the model as 'Model.h5' in the root directory.
     
         Args:
-            read_path (str): Path to the file that store the feature set
+            read_path (str): Path to the file that stores the feature set.
             validation_split (float): Float between 0 and 1. Fraction of the training data to be used as validation data. The model will set apart this fraction of the training data, will not train on it, and will evaluate the loss and any model metrics on this data at the end of each epoch.
             batch_size (str): Integer or None. Number of samples per gradient update.
             epoch (int): Integer. Number of epochs to train the model. An epoch is an iteration over the entire x and y data provided. Note that in conjunction with initial_epoch, epochs is to be understood as "final epoch". The model is not trained for a number of iterations given by epochs, but merely until the epoch of index epochs is reached.
-            verbose (int): 0, 1, or 2. Verbosity mode. 0 = silent, 1 = progress bar, 2 = one line per epoch. Note that the progress bar is not particularly useful when logged to a file, so verbose=2 is recommended when not running interactively
+            verbose (int): 0, 1, or 2. Verbosity mode. 0 = silent, 1 = progress bar, 2 = one line per epoch. Note that the progress bar is not particularly useful when logged to a file, so verbose=2 is recommended when not running interactively.
             
         Returns:
             tuple: tuple containing:
-                (mse (float): mean square error of the model that is tested with validation data, MEAN_CONST (float): mean value that is used to normalize the feature set, STD_CONST (float): standard deviation value that is used to normalize the feature set)
+                (mse (float): mean square error of the model that is tested with validation data, MEAN_CONST (float): mean value that is used to normalize the feature set, STD_CONST (float): standard deviation value that is used to normalize the feature set).
     """
     # Check if read_path and write_dir exist
     if not os.path.exists(read_path):
@@ -294,21 +295,21 @@ def train(read_path, validation_split=0.75, batch_size=128, epoch=100, verbose=1
 # read video and output frame by frame
 def speed_detection(model_path, video, output_path, required_resize, required_x_slice, required_y_slice, MEAN_CONST, STD_CONST):
     """
-        Detect the speed of the automobile using the pretrained model and input video
+        Detect the speed of the automobile using the pretrained model from 'model_path' and input video from 'video', and then output the txt file of the detected speed at 'output_path'.
     
         Args:
-            model_path (str): Path to the pretrained model
-            video (str): Path to the video
-            output_path (str): Path to the output
-            required_resize (int): Resize scale that was used for the pretrained model
-            required_x_slice: x slice that was used for the pretrained model
-            required_y_slice: y slice that was used for the pretrained model
-            MEAN_CONST: Mean of the training set, used to normalize the testing set
-            STD_CONST: Standard Deviation of the training set, used to normalize the testing set
+            model_path (str): Path to the pretrained model.
+            video (str): Path to the video.
+            output_path (str): Path to the output.
+            required_resize (int): Resize scale that was used for the pretrained model.
+            required_x_slice: x slice that was used for the pretrained model.
+            required_y_slice: y slice that was used for the pretrained model.
+            MEAN_CONST: Mean of the training set, used to normalize the testing set.
+            STD_CONST: Standard Deviation of the training set, used to normalize the testing set.
             
         Returns:
             tuple: tuple containing:
-                (index (int): index of the last frame that is predicted, detection_time (float): Total time took to predict the speed of the car from the input video)
+                (index (int): index of the last frame that is predicted, detection_time (float): Total time took to predict the speed of the car from the input video).
     """
     start = time.time()  # start counting the speed_detection
     # Check if model and video exist
@@ -372,15 +373,15 @@ def speed_detection(model_path, video, output_path, required_resize, required_x_
 
 def combine_video_and_speed(video_path, speed_path, output_path='combined_video_and_speed.mp4'):
     """
-        Print the speed of the car on each frame in the video
+        Read in the speed of the car from 'speed_path', print the corresponding spped on each frame in the video at 'video_path', and output the video at 'output_path'.
     
         Args:
-            video_path (str): Path to the video
-            speed_path (str): Path to the speed text
-            output_path (str): Path to the output
+            video_path (str): Path to the video.
+            speed_path (str): Path to the speed text.
+            output_path (str): Path to the output.
 
         Returns:
-            bool: True if combining success, False if combining fail
+            bool: True if combining success, False if combining fail.
     """
     if not os.path.exists(video_path):
         print(f"video path: '{video_path}' doesn't exist")
