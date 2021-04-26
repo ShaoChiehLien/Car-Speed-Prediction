@@ -25,10 +25,7 @@ def test_read():
     # Check if the read function's output match the total_frames
     total_frames = 1203
     for index in range(0, total_frames):
-        try:
-            assert os.path.exists(write_dir + str(index) + '.jpg')
-        except AssertionError:
-            raise Exception("os.listdir(write_dir)")
+        assert os.path.exists(write_dir + str(index) + '.jpg')
 
     # Delete the testing file
     shutil.rmtree(write_dir)
