@@ -53,7 +53,9 @@ Please do not use the GitHub issue tracker to submit bugs reports. The
 issue tracker is intended to make feature requests.
 
 ## Acknowledge
-This project is managed by Shao-Chieh Lien, the software architect and students at Purdue University. 
+This project is managed by Shao-Chieh Lien, the software architect and student at Purdue University.
 
-Meenakshi Pavithran and Christopher Crocker contributed substaintially in this project. Meenakshi is in charge or 
-paper writing and Christopher Croker is in charge of [training and testing data generation](https://github.com/CrockerC/carla_recording).
+This was a senior design project at Purdue University. Christopher Crocker was in charge of generating the training data using Carla simulator that could be seen from
+[this Github repository](https://github.com/CrockerC/carla_recording) and Data Section. Meenakshi was in charge or paper writing and documentation.
+
+Special thanks to Professor Santiago Torres-Arias at Purdue ECE department for his guidance throughout our whole software development cycle!
