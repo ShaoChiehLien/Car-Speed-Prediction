@@ -2,8 +2,8 @@ from setuptools import setup, find_packages
 import codecs
 import os
 
-VERSION = '0.7.7'
-DESCRIPTION = 'Speed detection library for automobile'
+VERSION = '1.7.0'
+DESCRIPTION = 'Camera-based Car Speed Detection for Autonomous Driving'
 
 with open('requirements.txt') as f:
     required = f.read().splitlines()
