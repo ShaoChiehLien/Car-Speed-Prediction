@@ -3,7 +3,7 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to Car-Speed-Detection's documentation!
+Welcome to Car-Speed-Detection's Documentation!
 ===============================================
 
 .. only:: html
@@ -20,8 +20,7 @@ Getting Started
 Installation
 ########################
 
-Car-Speed-Detection is available on `PyPI <https://pypi.org/project/car-speed-detection/>`_ and can be installed via `pip <https://pypi.org/project/pip/>`_. See `car-speed-detection.readthedocs.io <https://car-speed-detection.readthedocs.io/en/latest/>`_ to learn about system dependencies and installation alternatives and
-recommendations.
+Car-Speed-Detection is available on `PyPI <https://pypi.org/project/car-speed-detection/>`_ and can be installed via `pip <https://pypi.org/project/pip/>`_.
 
 .. code-block:: shell
 
@@ -45,7 +44,9 @@ Acknowledge
 
 This project is managed by Shao-Chieh Lien, the software architect and student at Purdue University.
 
-Meenakshi Pavithran and Christopher Crocker contributed substantially in this project. Meenakshi was in charge or paper writing and Christopher Crocker was in charge of generating the training data that could be seen from the `link <https://github.com/CrockerC/carla_recording>`_
+This was a senior design project at Purdue University. Christopher Crocker was in charge of generating the training data using Carla simulator that could be seen from `this Github repository <https://github.com/CrockerC/carla_recording>`_ and Data Section. Meenakshi was in charge or paper writing and documentation.
+
+Special thanks to Professor Santiago Torres-Arias at Purdue ECE department for his guidance throughout our whole software development cycle!
 
 
 

@@ -36,7 +36,7 @@
             
   <div class="section" id="example-code">
 <h1>Example Code<a class="headerlink" href="#example-code" title="Permalink to this headline">¶</a></h1>
-<p>This example code demonstrate how to read, preprocess, train, and detect the speed using our library.</p>
+<p>This example code demonstrates how to read, preprocess, train, and detect the speed using our library.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">car_speed.car_speed_detection</span> <span class="k">as</span> <span class="nn">car_speed</span>
 
 <span class="n">car_speed</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="s1">&#39;train.mp4&#39;</span><span class="p">,</span> <span class="s1">&#39;Car_Detection_images/&#39;</span><span class="p">)</span>
@@ -59,11 +59,11 @@
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">car_speed</span><span class="o">.</span><span class="n">preprocess</span><span class="p">(</span><span class="s1">&#39;Car_Detection_images&#39;</span><span class="p">,</span> <span class="s1">&#39;train.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;feature.txt&#39;</span><span class="p">,</span> <span class="n">resize</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">,</span> <span class="n">x_slice</span> <span class="o">=</span> <span class="mi">8</span><span class="p">,</span> <span class="n">y_slice</span> <span class="o">=</span> <span class="mi">6</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>Read in all the frames two by two, resize them two 0.5 of the original size, calculate the optical flow between two frames, and slice the output into 8 by 6 matrix, and flatten it into 1*48 array. If there are n frames, the output feature.txt would be a size n*48 matrix.</p>
+<p>Read in all the frames two by two, resize them to 0.5 of the original size, calculate the optical flow between two frames, slice the output into 8 by 6 matrix, and flatten it into 1*48 array. If there are n frames, the output feature.txt would be a size n*48 matrix.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">mse</span><span class="p">,</span> <span class="n">MEAN_CONST</span><span class="p">,</span> <span class="n">STD_CONST</span> <span class="o">=</span> <span class="n">car_speed</span><span class="o">.</span><span class="n">train</span><span class="p">(</span><span class="s1">&#39;feature.txt&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>Read in the feature set that was output from the preprocess function and train it with our Artificial Neural Network. The output would be a file named Model.h5. Note that the function output MEAN_CONST and STD_CONST will be needed for speed_detection to normalized its data.</p>
+<p>Read in the feature set that was output from the preprocess function and train it with our Artificial Neural Network. The output would be a file named ‘Model.h5’. Note that the function output MEAN_CONST and STD_CONST will be needed for speed_detection to normalized its data.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">car_speed</span><span class="o">.</span><span class="n">speed_detection</span><span class="p">(</span><span class="s1">&#39;Model.h5&#39;</span><span class="p">,</span> <span class="s1">&#39;test.mp4&#39;</span><span class="p">,</span> <span class="s1">&#39;detect_result.txt&#39;</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="n">MEAN_CONST</span><span class="p">,</span> <span class="n">STD_CONST</span><span class="p">)</span>
 </pre></div>
 </div>
