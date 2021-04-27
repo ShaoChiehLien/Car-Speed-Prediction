@@ -2,14 +2,4 @@ Data
 ===============================================
 We used Carla simulator to generate three sets of videos from city map, rural map, and highway map.
 
-.. only :: builder_html
-
-   Download: :download:`Model for Comma.ai training video <Comma.ai Model.zip>` 
-   
-   Download: :download:`Training data for city map <map3.zip>`
-
-   Download: :download:`Training data for highway map <map4.zip>`
-
-   Download: :download:`Training data for rural map <map7.zip>` 
-
-   Download: :download:`Testing readthedoc ability of downloading mp4 <video0.mp4>` 
+Download the training video and model we generated using Carla and the training video provided by comma.ai: `Data <https://github.com/ShaoChiehLien/Car-Speed-Detection/releases/tag/v0.7.7>`_
