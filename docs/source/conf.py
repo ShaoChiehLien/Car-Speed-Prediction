@@ -25,7 +25,7 @@ copyright = '2021, Shao-Chieh Lien'
 author = 'Shao-Chieh Lien'
 
 # The full version, including alpha/beta/rc tags
-release = '0.7.7'
+release = '1.7.0'
 
 
 # -- General configuration ---------------------------------------------------
