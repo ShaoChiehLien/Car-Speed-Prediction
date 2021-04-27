@@ -222,10 +222,10 @@ def test_speed_detection():
     
     for i in range(0, len(ans_list)):
         if math.isnan(ans_list[i]):
-            ans_list[i] = 0 
+            ans_list[i] = ans_list[i-1]
     for i in range(0, len(test_list)):
         if math.isnan(test_list[i]):
-            test_list[i] = 0     
+            test_list[i] = test_list[i-1]
             
     # check MSE error, if > 1.5, fail, suppose to be 1.012948989868164
     sum_for_mse = 0
